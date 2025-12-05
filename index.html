@@ -57,12 +57,15 @@
                             <i class="fas fa-list"></i> Danh mục <i class="fas fa-chevron-down" style="font-size: 12px; margin-left: 5px;"></i>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a href="#" class="nav-category" data-category="Văn học">Văn học</a></li>
-                            <li><a href="#" class="nav-category" data-category="Kinh tế">Kinh tế</a></li>
-                            <li><a href="#" class="nav-category" data-category="Kỹ năng">Kỹ năng</a></li>
-                            <li><a href="#" class="nav-category" data-category="Thiếu nhi">Thiếu nhi</a></li>
-                            <li><a href="#" class="nav-category" data-category="Ngoại ngữ">Ngoại ngữ</a></li>
-                            <li><a href="#" class="nav-category" data-category="Giáo khoa">Giáo khoa</a></li>
+                            <li><a href="pages/category.html?type=all" style="font-weight: 700; color: #3498db;">Xem tất cả sách</a></li>
+                            <li><hr style="margin: 5px 15px; border: 0; border-top: 1px solid #eee;"></li>
+    
+                            <li><a href="pages/category.html?type=Văn học">Văn học</a></li>
+                            <li><a href="pages/category.html?type=Kinh tế">Kinh tế</a></li>
+                            <li><a href="pages/category.html?type=Kỹ năng">Kỹ năng</a></li>
+                            <li><a href="pages/category.html?type=Thiếu nhi">Thiếu nhi</a></li>
+                            <li><a href="pages/category.html?type=Ngoại ngữ">Ngoại ngữ</a></li>
+                            <li><a href="pages/category.html?type=Giáo khoa">Giáo khoa</a></li>
                         </ul>
                     </li>
 
@@ -78,19 +81,15 @@
 
     <section id="search-results-section" class="container" style="display: none; padding: 40px 15px; min-height: 60vh;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
-    <h2 class="section-title" style="margin-bottom: 0; text-align: left;">
-        <i class="fas fa-search"></i> Kết quả tìm kiếm
-    </h2>
-    
-    <button onclick="closeSearch()" class="btn-close-search" title="Đóng tìm kiếm">
-        <i class="fas fa-times"></i>
-    </button>
-</div>
-        
+            <h2 class="section-title" style="margin-bottom: 0; text-align: left;">
+                <i class="fas fa-search"></i> Kết quả tìm kiếm
+            </h2>
+            <button onclick="closeSearch()" class="btn-close-search" title="Đóng tìm kiếm">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
         <p id="search-keyword" style="margin-bottom: 20px; font-size: 16px; color: #666;"></p>
-        
-        <div class="books-grid" id="search-results-grid">
-            </div>
+        <div class="books-grid" id="search-results-grid"></div>
     </section>
 
     <div id="home-content">
@@ -126,125 +125,84 @@
 
         <section class="categories-section" id="categories-section">
             <div class="container">
-                <h2 class="section-title"><i class="fas fa-th-large"></i> Khám phá theo danh mục</h2>
-                <p class="section-subtitle">Chọn danh mục yêu thích và khám phá thế giới sách đa dạng</p>
+                <h2 class="section-title"><i class="fas fa-th-large"></i> Khám phá danh mục</h2>
+                <p class="section-subtitle">Chọn thể loại yêu thích và đắm mình trong thế giới tri thức</p>
                 
                 <div class="categories-banner-grid">
-                    <a href="#" class="category-banner" data-category="Văn học">
+                    <a href="pages/category.html?type=Văn học" class="category-banner">
                         <div class="banner-image" style="background-image: url('images/books/nhagiakim.jpg');"></div>
-                        <div class="banner-overlay"></div>
                         <div class="banner-content">
                             <div class="category-icon"><i class="fas fa-pen-nib"></i></div>
                             <h3 class="category-title">Văn học</h3>
-                            <p class="category-desc">Tiểu thuyết, truyện ngắn, thơ ca</p>
-                            <div class="banner-badge">Xem ngay <i class="fas fa-arrow-right"></i></div>
+                            <p class="category-desc">Tiểu thuyết kinh điển & lãng mạn</p>
+                            <div class="banner-badge">Xem ngay</div>
                         </div>
                     </a>
                     
-                    <a href="#" class="category-banner" data-category="Kinh tế">
+                    <a href="pages/category.html?type=Kinh tế" class="category-banner">
                         <div class="banner-image" style="background-image: url('images/books/khoinghiep.jpg');"></div>
-                        <div class="banner-overlay"></div>
                         <div class="banner-content">
                             <div class="category-icon"><i class="fas fa-chart-line"></i></div>
                             <h3 class="category-title">Kinh tế</h3>
-                            <p class="category-desc">Đầu tư, quản lý, tài chính</p>
-                            <div class="banner-badge">Khám phá <i class="fas fa-arrow-right"></i></div>
+                            <p class="category-desc">Bài học kinh doanh & làm giàu</p>
+                            <div class="banner-badge">Xem ngay</div>
                         </div>
                     </a>
                     
-                    <a href="#" class="category-banner" data-category="Kỹ năng">
+                    <a href="pages/category.html?type=Kỹ năng" class="category-banner">
                         <div class="banner-image" style="background-image: url('images/books/dacnhantam.jpg');"></div>
-                        <div class="banner-overlay"></div>
                         <div class="banner-content">
                             <div class="category-icon"><i class="fas fa-lightbulb"></i></div>
                             <h3 class="category-title">Kỹ năng</h3>
-                            <p class="category-desc">Phát triển bản thân, giao tiếp</p>
-                            <div class="banner-badge">Xem ngay <i class="fas fa-arrow-right"></i></div>
+                            <p class="category-desc">Phát triển bản thân mỗi ngày</p>
+                            <div class="banner-badge">Xem ngay</div>
                         </div>
                     </a>
                     
-                    <a href="#" class="category-banner" data-category="Thiếu nhi">
+                    <a href="pages/category.html?type=Thiếu nhi" class="category-banner">
                         <div class="banner-image" style="background-image: url('images/books/harrypotter.jpg');"></div>
-                        <div class="banner-overlay"></div>
                         <div class="banner-content">
                             <div class="category-icon"><i class="fas fa-child"></i></div>
                             <h3 class="category-title">Thiếu nhi</h3>
-                            <p class="category-desc">Truyện tranh, sách tô màu, giáo dục</p>
-                            <div class="banner-badge">Mua ngay <i class="fas fa-arrow-right"></i></div>
+                            <p class="category-desc">Thế giới thần tiên cho bé</p>
+                            <div class="banner-badge">Xem ngay</div>
                         </div>
                     </a>
                     
-                    <a href="#" class="category-banner" data-category="Ngoại ngữ">
+                    <a href="pages/category.html?type=Ngoại ngữ" class="category-banner">
                         <div class="banner-image" style="background-image: url('images/books/tienganh.jpg');"></div>
-                        <div class="banner-overlay"></div>
                         <div class="banner-content">
                             <div class="category-icon"><i class="fas fa-globe"></i></div>
                             <h3 class="category-title">Ngoại ngữ</h3>
-                            <p class="category-desc">Tiếng Anh, Nhật, Hàn, Trung</p>
-                            <div class="banner-badge">Học ngay <i class="fas fa-arrow-right"></i></div>
+                            <p class="category-desc">Chinh phục ngôn ngữ mới</p>
+                            <div class="banner-badge">Xem ngay</div>
                         </div>
                     </a>
                     
-                    <a href="#" class="category-banner" data-category="Giáo khoa">
+                    <a href="pages/category.html?type=Giáo khoa" class="category-banner">
                         <div class="banner-image" style="background-image: url('images/books/toan10.jpg');"></div>
-                        <div class="banner-overlay"></div>
                         <div class="banner-content">
                             <div class="category-icon"><i class="fas fa-graduation-cap"></i></div>
                             <h3 class="category-title">Giáo khoa</h3>
-                            <p class="category-desc">Sách từ lớp 1 đến 12, đại học</p>
-                            <div class="banner-badge">Mua sắm <i class="fas fa-arrow-right"></i></div>
+                            <p class="category-desc">Hành trang tri thức nhà trường</p>
+                            <div class="banner-badge">Xem ngay</div>
                         </div>
                     </a>
                 </div>
-            </div>
-        </section>
-
-        <section class="filter-section">
-            <div class="container">
-                <h2 class="section-title"><i class="fas fa-filter"></i> Lọc sách theo thể loại</h2>
-                <div class="filter-buttons">
-                    <button class="filter-btn active" data-category="all">Tất cả</button>
-                    <button class="filter-btn" data-category="Văn học">Văn học</button>
-                    <button class="filter-btn" data-category="Kinh tế">Kinh tế</button>
-                    <button class="filter-btn" data-category="Kỹ năng">Kỹ năng</button>
-                    <button class="filter-btn" data-category="Thiếu nhi">Thiếu nhi</button>
-                    <button class="filter-btn" data-category="Ngoại ngữ">Ngoại ngữ</button>
-                    <button class="filter-btn" data-category="Giáo khoa">Giáo khoa</button>
-                </div>
-                
-                <div class="filter-results">
-                    <div class="filter-stats">
-                        <span id="result-count">0</span> sách được tìm thấy
-                    </div>
-                    <div class="filter-sort">
-                        <select id="sort-by">
-                            <option value="default">Sắp xếp theo</option>
-                            <option value="price-asc">Giá: Thấp đến cao</option>
-                            <option value="price-desc">Giá: Cao đến thấp</option>
-                            <option value="name-asc">Tên: A-Z</option>
-                            <option value="name-desc">Tên: Z-A</option>
-                        </select>
-                    </div>
-                </div>
-                
-                <div class="books-grid" id="filtered-books">
-                    </div>
             </div>
         </section>
 
         <section class="featured-section" id="featured-section">
             <div class="container">
                 <h2 class="section-title"><i class="fas fa-star"></i> Sách nổi bật</h2>
-                <div class="books-grid" id="featured-books">
-                    </div>
+                <div class="books-grid" id="featured-books"></div>
             </div>
         </section>
 
         <section class="bestseller-section" id="bestseller-section">
             <div class="container">
                 <h2 class="section-title"><i class="fas fa-fire"></i> Sách bán chạy</h2>
-                <div class="books-grid" id="bestseller-books">
-                    </div>
+                <div class="books-grid" id="bestseller-books"></div>
             </div>
         </section>
 
@@ -314,17 +272,16 @@
                 </div>
             </div>
         </section>
+    </div>
 
-    </div> <footer class="footer" id="contact-section">
+    <footer class="footer" id="contact-section">
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-col">
                     <h3><i class="fas fa-book"></i> BookStore</h3>
                     <p>Thiên đường sách dành cho mọi lứa tuổi. Cam kết chất lượng và giá tốt nhất thị trường.</p>
                     <div class="social-links">
-                       <a href="https://facebook.com/ngoc.toan.909532" target="_blank" title="Facebook BookStore">
-                         <i class="fab fa-facebook"></i>
-                       </a>
+                       <a href="https://facebook.com/ngoc.toan.909532" target="_blank" title="Facebook BookStore"><i class="fab fa-facebook"></i></a>
                        <a href="#"><i class="fab fa-instagram"></i></a>
                        <a href="#"><i class="fab fa-youtube"></i></a>
                        <a href="#"><i class="fab fa-tiktok"></i></a>
@@ -361,7 +318,6 @@
                         <li><i class="fas fa-envelope"></i> info@bookstore.vn</li>
                         <li><i class="fas fa-clock"></i> 8:00 - 22:00 (T2 - CN)</li>
                     </ul>
-                    
                     <div class="map-link" style="margin-top: 15px;">
                         <a href="https://maps.google.com/?q=43+Chùa+Bộc,+Đống+Đa,+Hà+Nội" target="_blank" style="color: #3498db; text-decoration: none;">
                             <i class="fas fa-map-marked-alt"></i> Xem trên bản đồ

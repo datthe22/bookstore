@@ -1,281 +1,137 @@
-/* ===== RESPONSIVE STYLES ===== */
+/* =========================================
+   RESPONSIVE STYLES (FIXED MOBILE)
+   ========================================= */
 
-/* Tablet: 768px - 1024px */
+/* --- TABLET & LAPTOP NHỎ (1024px trở xuống) --- */
 @media (max-width: 1024px) {
-    .categories-grid {
-        grid-template-columns: repeat(3, 1fr);
-    }
-    
-    .books-grid {
-        grid-template-columns: repeat(3, 1fr);
-    }
-    
-    .footer-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-    
-    .banner-content {
-        left: 30px;
-    }
-    
-    .banner-content h2 {
-        font-size: 30px;
-    }
-}
+    .container { max-width: 960px; }
 
-/* Mobile: 576px - 768px */
-@media (max-width: 768px) {
-    .header-top {
-        flex-wrap: wrap;
-    }
-    
-    .search-box {
-        order: 3;
-        flex: 0 0 100%;
-        max-width: 100%;
-        margin-top: 15px;
-    }
-    
-    .menu-toggle {
-        display: block;
-    }
-    
-    .navbar {
-        display: none;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        width: 100%;
-        background-color: white;
-        box-shadow: var(--shadow);
-        padding: 0;
-    }
-    
-    .navbar.active {
-        display: block;
-    }
-    
-    .nav-menu {
-        flex-direction: column;
-        gap: 0;
-    }
-    
-    .nav-menu > li > a {
-        padding: 15px 20px;
-        border-bottom: 1px solid var(--border-color);
-    }
-    
-    .dropdown-menu {
-        position: static;
-        opacity: 1;
-        visibility: visible;
-        transform: none;
-        box-shadow: none;
-        background-color: #f9f9f9;
-        display: none;
-    }
-    
-    .dropdown.active .dropdown-menu {
-        display: block;
-    }
-    
-    .dropdown-menu li a {
-        padding-left: 40px;
-    }
-    
-    .categories-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-    
-    .books-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-    
-    .promotion-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .banner-slider {
-        height: 300px;
-    }
-    
-    .banner-content {
-        left: 20px;
-        max-width: 300px;
-    }
-    
-    .banner-content h2 {
-        font-size: 24px;
-    }
-    
-    .banner-content p {
-        font-size: 16px;
-    }
-    
-    .section-title {
-        font-size: 24px;
-    }
-}
+    /* Grid sách: 3 cột */
+    .books-grid { grid-template-columns: repeat(3, 1fr); gap: 20px; }
 
-/* Small Mobile: < 576px */
-@media (max-width: 576px) {
-    .categories-grid {
-        grid-template-columns: 1fr;
-    }
+    /* Grid Danh mục: 2 cột */
+    .categories-banner-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+    .category-banner { height: 300px; }
+
+    /* Footer: 2 cột */
+    .footer-grid { grid-template-columns: 1fr 1fr; gap: 30px; }
     
-    .books-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .footer-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .header-actions {
-        gap: 10px;
-    }
-    
-    .btn-login span, .btn-cart span:not(.cart-count) {
-        display: none;
-    }
-    
-    .banner-slider {
-        height: 250px;
-    }
-    
-    .banner-content {
-        left: 15px;
-        max-width: 250px;
-    }
-    
-    .banner-content h2 {
-        font-size: 20px;
-    }
-    
-    .banner-content p {
-        font-size: 14px;
-    }
-    
-    .btn-banner {
-        padding: 10px 20px;
-        font-size: 14px;
-    }
+    /* --- FIX LỖI KHÔNG BẤM ĐƯỢC NÚT TRÊN TABLET --- */
+    .book-card { height: auto !important; }
+    .book-content { height: auto !important; padding-bottom: 60px !important; }
     
     .book-actions {
+        opacity: 1 !important;
+        transform: translateY(0) !important;
+        visibility: visible !important;
+        background: none !important;
+        backdrop-filter: none !important;
+        padding: 0 15px 15px 15px !important;
+    }
+}
+
+/* --- TABLET DỌC & MOBILE LỚN (768px trở xuống) --- */
+@media (max-width: 768px) {
+    .container { max-width: 720px; }
+
+    .header-top { flex-wrap: wrap; padding: 10px 0; }
+    .logo { flex: 1; }
+    .menu-toggle { display: block; font-size: 22px; }
+
+    .search-box { order: 3; flex: 0 0 100%; max-width: 100%; margin-top: 15px; }
+
+    .header-actions { gap: 15px; }
+    .btn-login span, .btn-register span { display: none; }
+
+    /* NAVBAR MOBILE */
+    .navbar {
+        display: none; position: absolute; top: 100%; left: 0; width: 100%;
+        background-color: white; box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        padding: 0; z-index: 999; border-top: 1px solid #eee;
+    }
+    .navbar.active { display: block; animation: slideDown 0.3s ease; }
+
+    .nav-menu { flex-direction: column; gap: 0; }
+    .nav-menu > li > a { padding: 15px 20px; border-bottom: 1px solid #f5f5f5; font-size: 16px; }
+    .nav-menu > li > a::after { display: none; }
+
+    /* Dropdown Mobile */
+    .dropdown-menu {
+        position: static; opacity: 1; visibility: visible; transform: none;
+        box-shadow: none; background-color: #f9f9f9; display: none; padding-left: 20px;
+    }
+    .dropdown.active .dropdown-menu { display: block; }
+
+    .banner-slider { height: 300px; }
+    .banner-content { left: 30px; max-width: 80%; }
+    .banner-content h2 { font-size: 28px; }
+    .category-page-header { padding: 40px 0 !important; }
+    #category-title { font-size: 28px !important; }
+}
+
+/* --- MOBILE NHỎ (576px trở xuống) --- */
+@media (max-width: 576px) {
+    .categories-banner-grid { grid-template-columns: 1fr; }
+    .category-banner { height: 250px; }
+
+    /* Grid sách 2 cột giống Shopee */
+    .books-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+
+    .book-image { height: 180px; padding: 10px; }
+    
+    /* --- FIX LỖI KHÔNG BẤM ĐƯỢC NÚT (MOBILE) --- */
+    /* Buộc nội dung thẻ sách tự giãn cao theo nội dung */
+    .book-content { 
+        height: auto !important; 
+        padding: 10px !important; 
+        display: flex;
         flex-direction: column;
     }
+    
+    .book-title { font-size: 14px; height: 40px; -webkit-line-clamp: 2; margin-bottom: 5px; }
+    .book-author { font-size: 12px; display: none; /* Ẩn tác giả trên mobile cho gọn */ }
+    
+    .book-price { margin-top: auto; margin-bottom: 10px; }
+    .current-price { font-size: 15px; }
+    .original-price { font-size: 11px; }
+
+    /* Biến nút thành static (nằm cố định dưới giá tiền) */
+    .book-actions {
+        position: static !important; /* Không trôi lơ lửng nữa */
+        opacity: 1 !important;
+        transform: none !important;
+        padding: 0 !important;
+        display: flex !important;
+        gap: 5px;
+        background: transparent !important;
+        backdrop-filter: none;
+    }
+
+    /* Thu nhỏ nút trên mobile */
+    .btn-add-cart, .btn-detail {
+        padding: 6px 0 !important; /* Giảm padding */
+        font-size: 11px !important;
+        border-radius: 6px !important;
+    }
+    
+    /* Ẩn chữ "Thêm giỏ", chỉ hiện Icon để đỡ chật */
+    .btn-add-cart { font-size: 0 !important; } /* Ẩn chữ */
+    .btn-add-cart i { font-size: 14px !important; margin: 0 !important; } /* Hiện icon to ra */
+    .btn-detail { display: none !important; } /* Ẩn nút chi tiết, bấm vào hình là được */
+    .btn-add-cart { width: 100%; display: block; } /* Nút thêm giỏ full chiều ngang */
+
+    /* Footer */
+    .footer-grid { grid-template-columns: 1fr; gap: 30px; text-align: center; }
+    .footer h3 { border-left: none; padding-left: 0; margin-bottom: 15px; }
+    .contact-info li, .social-links { justify-content: center; }
+
+    .promotion-grid { grid-template-columns: 1fr; }
+    .section-title { font-size: 24px; margin-bottom: 30px; }
+    .filter-sort { width: 100%; margin-top: 10px; }
+    .filter-sort select { width: 100%; }
 }
 
-/* Responsive cho about section */
-@media (max-width: 1024px) {
-    .about-content {
-        grid-template-columns: 1fr;
-        gap: 30px;
-    }
-    
-    .about-stats {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media (max-width: 576px) {
-    .about-stats {
-        grid-template-columns: 1fr;
-    }
-    
-    .stat-item {
-        padding: 20px 15px;
-    }
-    
-    .stat-item h3 {
-        font-size: 28px;
-    }
-    
-    #categories-section,
-    #bestseller-section,
-    #promotion-section,
-    #about-section,
-    #contact-section {
-        scroll-margin-top: 80px;
-    }
-}
-
-/* Responsive cho categories banner */
-@media (max-width: 1200px) {
-    .categories-banner-grid {
-        grid-template-columns: repeat(5, minmax(280px, 1fr));
-    }
-}
-
-@media (max-width: 1024px) {
-    .categories-banner-grid {
-        grid-template-columns: repeat(4, minmax(250px, 1fr));
-    }
-    
-    .category-banner {
-        height: 250px;
-        min-width: 250px;
-    }
-}
-
-@media (max-width: 768px) {
-    .categories-banner-grid {
-        grid-template-columns: repeat(3, minmax(220px, 1fr));
-        gap: 20px;
-    }
-    
-    .category-banner {
-        height: 220px;
-        min-width: 220px;
-    }
-    
-    .banner-content {
-        padding: 20px;
-    }
-    
-    .scroll-btn {
-        opacity: 1;
-        visibility: visible;
-        width: 35px;
-        height: 35px;
-    }
-}
-
-@media (max-width: 576px) {
-    .categories-banner-grid {
-        grid-template-columns: repeat(2, minmax(180px, 1fr));
-    }
-    
-    .category-banner {
-        height: 200px;
-        min-width: 180px;
-    }
-    
-    .category-title {
-        font-size: 18px;
-    }
-    
-    .category-desc {
-        font-size: 12px;
-    }
-    
-    .category-icon {
-        width: 45px;
-        height: 45px;
-    }
-    
-    .scroll-btn {
-        display: none; /* Ẩn nút scroll trên mobile nhỏ */
-    }
-}
-
-@media (max-width: 400px) {
-    .categories-banner-grid {
-        grid-template-columns: repeat(2, minmax(160px, 1fr));
-    }
-    
-    .category-banner {
-        min-width: 160px;
-        height: 180px;
-    }
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
 }

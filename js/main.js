@@ -24,6 +24,14 @@ function displayBooks(books, containerId) {
     books.forEach(book => {
         const bookCard = document.createElement('div');
         bookCard.className = 'book-card';
+        // THÊM SỰ KIỆN CLICK VÀO CẢ THẺ ĐỂ XEM CHI TIẾT
+        bookCard.onclick = function(e) {
+            // Nếu bấm vào nút thêm giỏ thì không chuyển trang
+            if (!e.target.closest('.btn-add-cart')) {
+                viewDetail(book.id);
+            }
+        };
+        bookCard.style.cursor = 'pointer'; // Thêm con trỏ tay
         
         // Tính giảm giá
         const hasDiscount = book.originalPrice > book.price;
@@ -48,16 +56,11 @@ function displayBooks(books, containerId) {
                     ${hasDiscount ? `<span class="original-price">${book.originalPrice.toLocaleString('vi-VN')} đ</span>` : ''}
                 </div>
                 
-                <div class="book-rating">
-                    <i class="fas fa-star" style="color: #f39c12;"></i>
-                    <span>${book.rating}</span>
-                </div>
-                
                 <div class="book-actions">
-                    <button class="btn-add-cart" onclick="addToCart(${book.id})">
+                    <button class="btn-add-cart" onclick="event.stopPropagation(); addToCart(${book.id})">
                         <i class="fas fa-cart-plus"></i> Thêm giỏ
                     </button>
-                    <button class="btn-detail" onclick="viewDetail(${book.id})">
+                    <button class="btn-detail" onclick="event.stopPropagation(); viewDetail(${book.id})">
                         <i class="fas fa-info-circle"></i> Chi tiết
                     </button>
                 </div>
@@ -140,11 +143,11 @@ function prevSlide() {
     showSlide(currentSlide);
 }
 
-// ===== TÌM KIẾM SÁCH (LOGIC MỚI) =====
+// ===== TÌM KIẾM SÁCH =====
 function searchBooks() {
     const searchInput = document.getElementById('search-input');
-    const homeContent = document.getElementById('home-content'); // Hộp nội dung cũ
-    const searchSection = document.getElementById('search-results-section'); // Hộp kết quả tìm kiếm
+    const homeContent = document.getElementById('home-content');
+    const searchSection = document.getElementById('search-results-section');
     const searchGrid = document.getElementById('search-results-grid');
     const searchKeyword = document.getElementById('search-keyword');
     
@@ -152,28 +155,22 @@ function searchBooks() {
     
     const searchTerm = searchInput.value.toLowerCase().trim();
     
-    // Nếu ô tìm kiếm trống, đóng tìm kiếm
     if (searchTerm === '') {
         closeSearch();
         return;
     }
     
-    // 1. Ẩn trang chủ, hiện trang tìm kiếm
     homeContent.style.display = 'none';
     searchSection.style.display = 'block';
     
-    // 2. Lọc sách
     const searchResults = booksData.filter(book => 
         book.title.toLowerCase().includes(searchTerm) ||
         book.author.toLowerCase().includes(searchTerm) ||
         book.category.toLowerCase().includes(searchTerm)
     );
     
-    // 3. Hiển thị thông báo từ khóa
     searchKeyword.innerHTML = `Tìm thấy <strong>${searchResults.length}</strong> kết quả cho từ khóa "<strong>${searchInput.value}</strong>"`;
-    
-    // 4. Render kết quả
-    searchGrid.innerHTML = ''; // Xóa kết quả cũ
+    searchGrid.innerHTML = '';
     
     if (searchResults.length === 0) {
         searchGrid.innerHTML = `
@@ -184,59 +181,58 @@ function searchBooks() {
             </div>
         `;
     } else {
-        // Render sách tìm được
         searchResults.forEach(book => {
-            // Tính giảm giá
             const hasDiscount = book.originalPrice > book.price;
             const discountPercent = hasDiscount ? Math.round((1 - book.price / book.originalPrice) * 100) : 0;
             
-            const html = `
-                <div class="book-card" onclick="viewDetail(${book.id})">
-                    ${book.isBestseller ? '<div class="book-badge">Bán chạy</div>' : ''}
-                    ${hasDiscount ? `<div class="book-badge" style="left: auto; right: 15px; background: linear-gradient(135deg, #ff6b6b, #ee5253);">-${discountPercent}%</div>` : ''}
+            // Xử lý click cho kết quả tìm kiếm
+            const bookDiv = document.createElement('div');
+            bookDiv.className = 'book-card';
+            bookDiv.onclick = function(e) {
+                if (!e.target.closest('.btn-add-cart')) viewDetail(book.id);
+            };
+            bookDiv.style.cursor = 'pointer';
+
+            bookDiv.innerHTML = `
+                ${book.isBestseller ? '<div class="book-badge">Bán chạy</div>' : ''}
+                ${hasDiscount ? `<div class="book-badge" style="left: auto; right: 15px; background: #e74c3c;">-${discountPercent}%</div>` : ''}
+                
+                <div class="book-image">
+                    <img src="${book.image}" alt="${book.title}">
+                </div>
+                
+                <div class="book-content">
+                    <h3 class="book-title">${book.title}</h3>
+                    <p class="book-author">${book.author}</p>
                     
-                    <div class="book-image">
-                        <img src="${book.image}" alt="${book.title}">
+                    <div class="book-price">
+                        <span class="current-price">${book.price.toLocaleString('vi-VN')} đ</span>
                     </div>
                     
-                    <div class="book-content">
-                        <h3 class="book-title">${book.title}</h3>
-                        <p class="book-author">${book.author}</p>
-                        
-                        <div class="book-price">
-                            <span class="current-price">${book.price.toLocaleString('vi-VN')} đ</span>
-                        </div>
-                        
-                        <div class="book-actions">
-                            <button class="btn-add-cart" onclick="event.stopPropagation(); addToCart(${book.id})">Thêm giỏ</button>
-                            <button class="btn-detail">Chi tiết</button>
-                        </div>
+                    <div class="book-actions">
+                        <button class="btn-add-cart" onclick="event.stopPropagation(); addToCart(${book.id})">Thêm giỏ</button>
+                        <button class="btn-detail" onclick="event.stopPropagation(); viewDetail(${book.id})">Chi tiết</button>
                     </div>
                 </div>
             `;
-            searchGrid.innerHTML += html;
+            searchGrid.appendChild(bookDiv);
         });
     }
-    
-    // Cuộn lên đầu trang để người dùng thấy kết quả
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// Hàm đóng tìm kiếm, quay về trang chủ
 function closeSearch() {
     const homeContent = document.getElementById('home-content');
     const searchSection = document.getElementById('search-results-section');
     const searchInput = document.getElementById('search-input');
     
     if (homeContent && searchSection) {
-        homeContent.style.display = 'block'; // Hiện lại trang chủ
-        searchSection.style.display = 'none'; // Ẩn tìm kiếm
-        if(searchInput) searchInput.value = ''; // Xóa chữ trong ô tìm kiếm
+        homeContent.style.display = 'block';
+        searchSection.style.display = 'none';
+        if(searchInput) searchInput.value = '';
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 }
-
-// Gán sự kiện vào biến toàn cục để HTML gọi được
 window.closeSearch = closeSearch;
 
 // 7. Menu mobile
@@ -245,12 +241,16 @@ function setupMobileMenu() {
     const navbar = document.getElementById('navbar');
     
     if (menuToggle && navbar) {
-        menuToggle.addEventListener('click', () => {
+        // Clone node để xóa sự kiện cũ tránh trùng lặp
+        const newMenuToggle = menuToggle.cloneNode(true);
+        menuToggle.parentNode.replaceChild(newMenuToggle, menuToggle);
+
+        newMenuToggle.addEventListener('click', () => {
             navbar.classList.toggle('active');
         });
         
         document.addEventListener('click', (e) => {
-            if (!navbar.contains(e.target) && !menuToggle.contains(e.target)) {
+            if (!navbar.contains(e.target) && !newMenuToggle.contains(e.target)) {
                 navbar.classList.remove('active');
             }
         });
@@ -259,92 +259,13 @@ function setupMobileMenu() {
     // Dropdown mobile
     const dropdowns = document.querySelectorAll('.dropdown');
     dropdowns.forEach(dropdown => {
-        dropdown.addEventListener('click', function() {
+        dropdown.addEventListener('click', function(e) {
             if (window.innerWidth <= 768) {
+                // e.preventDefault();
                 this.classList.toggle('active');
             }
         });
     });
-}
-
-// 8. Lọc sách (Filter)
-let filteredBooks = [];
-
-function filterBooks(category) {
-    if (category === 'all') {
-        filteredBooks = [...booksData];
-    } else {
-        filteredBooks = booksData.filter(book => book.category === category);
-    }
-    
-    displayFilteredBooks(filteredBooks);
-    
-    // Update active button
-    document.querySelectorAll('.filter-btn').forEach(btn => {
-        if (btn.dataset.category === category) btn.classList.add('active');
-        else btn.classList.remove('active');
-    });
-}
-
-function displayFilteredBooks(books) {
-    const container = document.getElementById('filtered-books');
-    if (!container) return;
-    
-    // Tận dụng lại hàm displayBooks nhưng render vào container khác
-    container.innerHTML = '';
-    
-    books.forEach(book => {
-        const bookCard = document.createElement('div');
-        bookCard.className = 'book-card';
-        
-        const hasDiscount = book.originalPrice > book.price;
-        const discountPercent = hasDiscount ? Math.round((1 - book.price / book.originalPrice) * 100) : 0;
-        
-        bookCard.innerHTML = `
-            ${book.isBestseller ? '<div class="book-badge">Bán chạy</div>' : ''}
-            ${hasDiscount ? `<div class="book-badge" style="left: auto; right: 15px; background-color: #e74c3c;">-${discountPercent}%</div>` : ''}
-            
-            <div class="book-image">
-                <img src="${book.image}" alt="${book.title}">
-            </div>
-            
-            <div class="book-content">
-                <h3 class="book-title">${book.title}</h3>
-                <p class="book-author">${book.author}</p>
-                
-                <div class="book-price">
-                    <span class="current-price">${book.price.toLocaleString('vi-VN')} đ</span>
-                </div>
-                
-                <div class="book-rating">
-                    <i class="fas fa-star" style="color: #f39c12;"></i>
-                    <span>${book.rating}</span>
-                </div>
-                
-                <div class="book-actions">
-                    <button class="btn-add-cart" onclick="addToCart(${book.id})">Thêm giỏ</button>
-                    <button class="btn-detail" onclick="viewDetail(${book.id})">Chi tiết</button>
-                </div>
-            </div>
-        `;
-        container.appendChild(bookCard);
-    });
-
-    const resultCount = document.getElementById('result-count');
-    if (resultCount) resultCount.textContent = books.length;
-}
-
-function sortBooks(sortType) {
-    // Nếu chưa lọc thì lấy toàn bộ
-    if (filteredBooks.length === 0) filteredBooks = [...booksData];
-    
-    switch (sortType) {
-        case 'price-asc': filteredBooks.sort((a, b) => a.price - b.price); break;
-        case 'price-desc': filteredBooks.sort((a, b) => b.price - a.price); break;
-        case 'name-asc': filteredBooks.sort((a, b) => a.title.localeCompare(b.title)); break;
-        case 'name-desc': filteredBooks.sort((a, b) => b.title.localeCompare(a.title)); break;
-    }
-    displayFilteredBooks(filteredBooks);
 }
 
 // ===== KHỞI TẠO =====
@@ -353,55 +274,6 @@ document.addEventListener('DOMContentLoaded', function() {
         // Init HomePage Data
         displayBooks(booksData.slice(0, 4), 'featured-books');
         displayBooks(booksData.filter(b => b.isBestseller), 'bestseller-books');
-        
-        // Init Filter Section
-        displayFilteredBooks(booksData); // Mặc định hiện tất cả
-        
-        // Setup Filter Buttons
-        document.querySelectorAll('.filter-btn').forEach(btn => {
-            btn.addEventListener('click', () => filterBooks(btn.dataset.category));
-        });
-        
-        // Setup Category Banners Click
-        document.querySelectorAll('.category-banner').forEach(banner => {
-            banner.addEventListener('click', (e) => {
-                e.preventDefault();
-                const category = banner.dataset.category;
-                filterBooks(category);
-                document.getElementById('filtered-books')?.scrollIntoView({ behavior: 'smooth' });
-            });
-        });
-
-        // ============================================
-        // XỬ LÝ CLICK MENU DANH MỤC (NAVBAR)
-        // ============================================
-        const navCategories = document.querySelectorAll('.nav-category');
-        navCategories.forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const category = link.dataset.category;
-                
-                // Gọi hàm lọc sách
-                filterBooks(category);
-                
-                // Cuộn xuống phần hiển thị sách
-                const filterSection = document.getElementById('filtered-books');
-                if (filterSection) {
-                    // Cuộn mượt (trừ đi chiều cao header)
-                    const headerOffset = 80;
-                    const elementPosition = filterSection.getBoundingClientRect().top;
-                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-                    window.scrollTo({ top: offsetPosition, behavior: "smooth" });
-                }
-
-                // Đóng menu mobile nếu đang mở
-                document.getElementById('navbar')?.classList.remove('active');
-            });
-        });
-        // ============================================
-
-        // Setup Sort
-        document.getElementById('sort-by')?.addEventListener('change', (e) => sortBooks(e.target.value));
     }
 
     updateCartCount();
@@ -434,8 +306,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 const elementPosition = target.getBoundingClientRect().top;
                 const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
                 window.scrollTo({ top: offsetPosition, behavior: "smooth" });
-                
-                // Đóng menu mobile
                 document.getElementById('navbar')?.classList.remove('active');
             }
         });

@@ -1,16 +1,19 @@
 document.addEventListener('DOMContentLoaded', function() {
     displayCartItems();
+    
+    // Cập nhật thông tin user trên header
     if (typeof updateHeaderUserInfo !== 'undefined') {
         updateHeaderUserInfo();
     }
+    
+    // Kích hoạt menu mobile (SỬA LỖI MENU KHÔNG CHẠY)
+    setupMobileMenu();
 });
 
 function displayCartItems() {
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
     const cartContainer = document.getElementById('cart-content');
     
-    // --- [SỬA LỖI Ở ĐÂY] ---
-    // Nếu giỏ hàng trống, phải cập nhật lại HTML ngay lập tức chứ không được return luôn
     if (cart.length === 0) {
         cartContainer.innerHTML = `
             <div style="text-align: center; padding: 50px;">
@@ -22,12 +25,10 @@ function displayCartItems() {
                 </a>
             </div>
         `;
-        // Cập nhật lại số lượng trên Header về 0
         if (typeof updateHeaderUserInfo !== 'undefined') updateHeaderUserInfo();
         else updateCartCount();
         return;
     }
-    // -----------------------
     
     let total = 0;
     let cartHTML = `
@@ -37,9 +38,9 @@ function displayCartItems() {
                     <tr style="background-color: #f5f5f5;">
                         <th style="padding: 15px; text-align: left;">Sản phẩm</th>
                         <th style="padding: 15px; text-align: center;">Đơn giá</th>
-                        <th style="padding: 15px; text-align: center;">Số lượng</th>
-                        <th style="padding: 15px; text-align: center;">Thành tiền</th>
-                        <th style="padding: 15px; text-align: center;">Thao tác</th>
+                        <th style="padding: 15px; text-align: center;">SL</th>
+                        <th style="padding: 15px; text-align: center;">Tiền</th>
+                        <th style="padding: 15px; text-align: center;">Xóa</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -53,29 +54,29 @@ function displayCartItems() {
             <tr style="border-bottom: 1px solid #eee;">
                 <td style="padding: 15px;">
                     <div style="display: flex; align-items: center; gap: 15px;">
-                        <img src="../${item.image}" alt="${item.title}" style="width: 80px; height: 100px; object-fit: cover; border-radius: 4px;">
+                        <img src="../${item.image}" alt="${item.title}" style="width: 60px; height: 80px; object-fit: cover; border-radius: 4px;">
                         <div>
-                            <h4 style="margin-bottom: 5px;">${item.title}</h4>
-                            <p style="color: #7f8c8d;">${item.author}</p>
+                            <h4 style="margin-bottom: 5px; font-size: 14px;">${item.title}</h4>
+                            <p style="color: #7f8c8d; font-size: 12px;">${item.author}</p>
                         </div>
                     </div>
                 </td>
-                <td style="padding: 15px; text-align: center;">
+                <td style="padding: 15px; text-align: center; font-size: 14px;">
                     ${item.price.toLocaleString('vi-VN')} đ
                 </td>
                 <td style="padding: 15px; text-align: center;">
-                    <div style="display: inline-flex; align-items: center; gap: 10px;">
-                        <button onclick="updateQuantity(${item.id}, -1)" style="width: 30px; height: 30px; border: 1px solid #ddd; background: white; border-radius: 4px; cursor: pointer;">-</button>
-                        <span style="min-width: 30px; display: inline-block;">${item.quantity}</span>
-                        <button onclick="updateQuantity(${item.id}, 1)" style="width: 30px; height: 30px; border: 1px solid #ddd; background: white; border-radius: 4px; cursor: pointer;">+</button>
+                    <div style="display: inline-flex; align-items: center; gap: 5px;">
+                        <button onclick="updateQuantity(${item.id}, -1)" style="width: 25px; height: 25px; border: 1px solid #ddd; background: white; border-radius: 4px;">-</button>
+                        <span style="min-width: 20px; text-align: center; font-size: 14px;">${item.quantity}</span>
+                        <button onclick="updateQuantity(${item.id}, 1)" style="width: 25px; height: 25px; border: 1px solid #ddd; background: white; border-radius: 4px;">+</button>
                     </div>
                 </td>
-                <td style="padding: 15px; text-align: center; font-weight: bold; color: #e74c3c;">
+                <td style="padding: 15px; text-align: center; font-weight: bold; color: #e74c3c; font-size: 14px;">
                     ${itemTotal.toLocaleString('vi-VN')} đ
                 </td>
                 <td style="padding: 15px; text-align: center;">
                     <button onclick="removeFromCart(${item.id})" style="background: none; border: none; color: #e74c3c; cursor: pointer;">
-                        <i class="fas fa-trash"></i> Xóa
+                        <i class="fas fa-trash"></i>
                     </button>
                 </td>
             </tr>
@@ -90,20 +91,19 @@ function displayCartItems() {
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                     <div>
                         <h3>Tổng cộng:</h3>
-                        <p style="color: #7f8c8d; font-size: 14px;">Đã bao gồm VAT (nếu có)</p>
                     </div>
-                    <div style="font-size: 32px; font-weight: bold; color: #e74c3c;">
+                    <div style="font-size: 24px; font-weight: bold; color: #e74c3c;">
                         ${total.toLocaleString('vi-VN')} đ
                     </div>
                 </div>
                 
-                <div style="display: flex; gap: 15px; margin-top: 25px;">
-                    <a href="../index.html" class="btn" style="background-color: #95a5a6;">
+                <div style="display: flex; gap: 15px; margin-top: 25px; flex-direction: column;">
+                    <button onclick="checkout()" class="btn" style="width: 100%; background-color: #27ae60; padding: 15px;">
+                        <i class="fas fa-credit-card"></i> Thanh toán ngay
+                    </button>
+                    <a href="../index.html" class="btn" style="width: 100%; background-color: #95a5a6; padding: 15px; text-align: center;">
                         <i class="fas fa-arrow-left"></i> Tiếp tục mua sắm
                     </a>
-                    <button onclick="checkout()" class="btn" style="flex: 1; background-color: #27ae60;">
-                        <i class="fas fa-credit-card"></i> Thanh toán
-                    </button>
                 </div>
             </div>
         </div>
@@ -118,21 +118,13 @@ function updateQuantity(bookId, change) {
     
     if (itemIndex !== -1) {
         cart[itemIndex].quantity += change;
-        
-        // Nếu số lượng <= 0 thì xóa sản phẩm
         if (cart[itemIndex].quantity <= 0) {
             cart.splice(itemIndex, 1);
         }
-        
         localStorage.setItem('cart', JSON.stringify(cart));
-        displayCartItems(); // Gọi lại hàm hiển thị
-        
-        // Cập nhật header
-        if (typeof updateHeaderUserInfo !== 'undefined') {
-            updateHeaderUserInfo();
-        } else {
-            updateCartCount();
-        }
+        displayCartItems();
+        if (typeof updateHeaderUserInfo !== 'undefined') updateHeaderUserInfo();
+        else updateCartCount();
     }
 }
 
@@ -140,19 +132,13 @@ function removeFromCart(bookId) {
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
     cart = cart.filter(item => item.id !== bookId);
     localStorage.setItem('cart', JSON.stringify(cart));
-    
-    displayCartItems(); // Gọi lại hàm hiển thị -> Nó sẽ check length === 0 và hiện thông báo trống
-    
-    // Cập nhật header
-    if (typeof updateHeaderUserInfo !== 'undefined') {
-        updateHeaderUserInfo();
-    } else {
-        updateCartCount();
-    }
+    displayCartItems();
+    if (typeof updateHeaderUserInfo !== 'undefined') updateHeaderUserInfo();
+    else updateCartCount();
 }
 
 function checkout() {
-    alert('Chức năng thanh toán đang được phát triển. Đây chỉ là demo cho bài tập!');
+    alert('Chức năng thanh toán đang được phát triển!');
 }
 
 function updateCartCount() {
@@ -162,4 +148,37 @@ function updateCartCount() {
         const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
         cartCountElement.textContent = totalItems;
     }
+}
+
+// Hàm xử lý Menu Mobile (Đã thêm vào đây)
+function setupMobileMenu() {
+    const menuToggle = document.getElementById('menu-toggle');
+    const navbar = document.getElementById('navbar');
+    
+    if (menuToggle && navbar) {
+        // Xóa sự kiện cũ để tránh trùng lặp nếu có
+        const newMenuToggle = menuToggle.cloneNode(true);
+        menuToggle.parentNode.replaceChild(newMenuToggle, menuToggle);
+        
+        newMenuToggle.addEventListener('click', () => {
+            navbar.classList.toggle('active');
+        });
+        
+        document.addEventListener('click', (e) => {
+            if (!navbar.contains(e.target) && !newMenuToggle.contains(e.target)) {
+                navbar.classList.remove('active');
+            }
+        });
+    }
+    
+    // Dropdown mobile
+    const dropdowns = document.querySelectorAll('.dropdown');
+    dropdowns.forEach(dropdown => {
+        dropdown.addEventListener('click', function(e) {
+            if (window.innerWidth <= 768) {
+                // e.preventDefault(); // Nếu cần thiết
+                this.classList.toggle('active');
+            }
+        });
+    });
 }

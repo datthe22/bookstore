@@ -5,7 +5,7 @@ const booksData = [
         id: 1,
         title: "Nhà Giả Kim",
         author: "Paulo Coelho",
-        price: 79000,
+        price: 69000,
         originalPrice: 99000,
         image: "images/books/nhagiakim.jpg",
         category: "Văn học",

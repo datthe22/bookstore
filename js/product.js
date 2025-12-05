@@ -2,11 +2,14 @@
 const selectedBookId = sessionStorage.getItem('selectedBookId');
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Kiểm tra xem data.js đã load chưa
     if (typeof booksData === 'undefined') {
         console.error('Chưa load data.js');
         return;
     }
+
+    // --- SETUP MENU MOBILE (CODE MỚI THÊM) ---
+    setupMobileMenu();
+    // ----------------------------------------
 
     const productContainer = document.getElementById('product-detail');
     
@@ -41,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Update Document Title
     document.title = `${book.title} - BookStore`;
 
-    // RENDER CHI TIẾT SÁCH (CHÚ Ý DÒNG IMG CÓ THÊM ../)
+    // RENDER CHI TIẾT SÁCH
     productContainer.innerHTML = `
         <div class="product-detail-container" style="display: grid; grid-template-columns: 1fr 1.5fr; gap: 40px; margin-top: 20px;">
             <div class="product-image">
@@ -82,10 +85,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 </div>
                 
                 <div class="product-actions" style="display: flex; gap: 15px;">
-                    <button onclick="addToCart(${book.id})" class="btn" style="flex: 1; padding: 15px; font-size: 16px; background-color: #3498db;">
+                    <button onclick="addToCart(${book.id})" class="btn" style="flex: 1; padding: 15px; font-size: 16px; background-color: #3498db; color: white; border: none; border-radius: 8px; cursor: pointer;">
                         <i class="fas fa-cart-plus"></i> Thêm vào giỏ
                     </button>
-                    <button onclick="buyNow(${book.id})" class="btn" style="flex: 1; padding: 15px; font-size: 16px; background-color: #e74c3c;">
+                    <button onclick="buyNow(${book.id})" class="btn" style="flex: 1; padding: 15px; font-size: 16px; background-color: #e74c3c; color: white; border: none; border-radius: 8px; cursor: pointer;">
                         Mua ngay
                     </button>
                 </div>
@@ -102,8 +105,20 @@ document.addEventListener('DOMContentLoaded', function() {
     const relatedBooks = booksData.filter(b => b.category === book.category && b.id !== book.id).slice(0, 4);
     displayRelatedBooks(relatedBooks);
     
-    if(typeof updateCartCount === 'function') updateCartCount();
-    if(typeof setupMobileMenu === 'function') setupMobileMenu();
+    // Cập nhật giỏ hàng trên header
+    if(typeof updateHeaderUserInfo === 'function') updateHeaderUserInfo();
+    else if(typeof updateCartCount === 'function') updateCartCount();
+    
+    // Xử lý Responsive CSS cho grid chi tiết (Inject thẳng style cho nhanh)
+    const style = document.createElement('style');
+    style.innerHTML = `
+        @media (max-width: 768px) {
+            .product-detail-container { grid-template-columns: 1fr !important; gap: 20px !important; }
+            .product-actions { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 15px; box-shadow: 0 -5px 15px rgba(0,0,0,0.1); z-index: 100; margin: 0 !important; }
+            .footer { padding-bottom: 90px; } /* Đẩy footer lên để không bị nút che */
+        }
+    `;
+    document.head.appendChild(style);
 });
 
 function generateStarRating(rating) {
@@ -129,13 +144,12 @@ function displayRelatedBooks(books) {
         bookCard.style.cursor = 'pointer';
         bookCard.onclick = () => viewDetail(book.id);
         
-        // CHÚ Ý DÒNG IMG CÓ THÊM ../
         bookCard.innerHTML = `
-            <div class="book-image" style="height: 200px;">
+            <div class="book-image">
                 <img src="../${book.image}" alt="${book.title}">
             </div>
             <div class="book-content">
-                <h3 class="book-title" style="font-size: 16px;">${book.title}</h3>
+                <h3 class="book-title" style="font-size: 14px;">${book.title}</h3>
                 <div class="book-price">
                     <span class="current-price" style="font-size: 16px;">${book.price.toLocaleString('vi-VN')} đ</span>
                 </div>
@@ -160,11 +174,15 @@ function addToCart(bookId) {
     if (typeof updateHeaderUserInfo === 'function') updateHeaderUserInfo();
     else if (typeof updateCartCount === 'function') updateCartCount();
     
+    // Nếu có showNotification thì dùng
     if (typeof showNotification === 'function') showNotification(`Đã thêm "${book.title}" vào giỏ hàng!`);
     else alert(`Đã thêm "${book.title}" vào giỏ hàng!`);
 }
 
-function buyNow(bookId) { addToCart(bookId); window.location.href = 'cart.html'; }
+function buyNow(bookId) { 
+    addToCart(bookId); 
+    window.location.href = 'cart.html'; 
+}
 
 function viewDetail(bookId) {
     sessionStorage.setItem('selectedBookId', bookId);
@@ -178,8 +196,35 @@ function updateCartCount() {
     if(countElement) countElement.textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
 }
 
+// HÀM XỬ LÝ MENU MOBILE (QUAN TRỌNG)
 function setupMobileMenu() {
     const menuToggle = document.getElementById('menu-toggle');
     const navbar = document.getElementById('navbar');
-    if (menuToggle && navbar) menuToggle.onclick = () => navbar.classList.toggle('active');
+    
+    if (menuToggle && navbar) {
+        // Clone để reset event cũ
+        const newMenuToggle = menuToggle.cloneNode(true);
+        menuToggle.parentNode.replaceChild(newMenuToggle, menuToggle);
+        
+        newMenuToggle.addEventListener('click', () => {
+            navbar.classList.toggle('active');
+        });
+        
+        document.addEventListener('click', (e) => {
+            if (!navbar.contains(e.target) && !newMenuToggle.contains(e.target)) {
+                navbar.classList.remove('active');
+            }
+        });
+    }
+    
+    // Dropdown mobile toggle
+    const dropdowns = document.querySelectorAll('.dropdown');
+    dropdowns.forEach(dropdown => {
+        dropdown.addEventListener('click', function(e) {
+            if (window.innerWidth <= 768) {
+                // e.preventDefault(); // Có thể bỏ comment nếu cần chặn link chính
+                this.classList.toggle('active');
+            }
+        });
+    });
 }

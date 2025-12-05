@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh mục sách - BookStore</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+    <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-top">
+                <div class="logo">
+                    <a href="../index.html">
+                        <i class="fas fa-book"></i>
+                        <span class="logo-text">BookStore</span>
+                    </a>
+                </div>
+                <div class="search-box">
+                    <input type="text" id="search-input" placeholder="Tìm sách, tác giả, thể loại...">
+                    <button id="search-btn"><i class="fas fa-search"></i></button>
+                </div>
+                <div class="header-actions">
+                    </div>
+                <button class="menu-toggle" id="menu-toggle"><i class="fas fa-bars"></i></button>
+            </div>
+            
+            <nav class="navbar" id="navbar">
+                <ul class="nav-menu">
+                    <li><a href="../index.html"><i class="fas fa-home"></i> Trang chủ</a></li>
+                    <li class="dropdown">
+                        <a href="javascript:void(0)" class="active">
+                            <i class="fas fa-list"></i> Danh mục <i class="fas fa-chevron-down" style="font-size: 12px; margin-left: 5px;"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="category.html?type=all" style="font-weight: 700; color: #3498db;">Xem tất cả sách</a></li>
+                            <li><hr style="margin: 5px 15px; border: 0; border-top: 1px solid #eee;"></li>
+    
+                            <li><a href="category.html?type=Văn học">Văn học</a></li>
+                            <li><a href="category.html?type=Kinh tế">Kinh tế</a></li>
+                            <li><a href="category.html?type=Kỹ năng">Kỹ năng</a></li>
+                            <li><a href="category.html?type=Thiếu nhi">Thiếu nhi</a></li>
+                            <li><a href="category.html?type=Ngoại ngữ">Ngoại ngữ</a></li>
+                            <li><a href="category.html?type=Giáo khoa">Giáo khoa</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="../index.html#featured-section"><i class="fas fa-star"></i> Sách nổi bật</a></li>
+                    <li><a href="../index.html#bestseller-section"><i class="fas fa-fire"></i> Sách bán chạy</a></li>
+                    <li><a href="../index.html#contact-section"><i class="fas fa-phone"></i> Liên hệ</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="category-page-header" style="background: linear-gradient(135deg, #2c3e50, #3498db); padding: 60px 0; color: white; text-align: center; margin-bottom: 40px;">
+        <div class="container">
+            <h1 id="category-title" style="font-family: 'Montserrat', sans-serif; font-size: 36px; margin-bottom: 10px;">Đang tải...</h1>
+            <p id="category-desc" style="opacity: 0.9; font-size: 16px;">Khám phá những cuốn sách hay nhất</p>
+        </div>
+    </div>
+
+    <main class="container" style="min-height: 60vh; padding-bottom: 60px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; flex-wrap: wrap; gap: 20px;">
+            <p style="color: #7f8c8d;">Hiển thị <strong id="book-count" style="color: #2c3e50;">0</strong> đầu sách</p>
+            <div class="filter-sort">
+                <select id="sort-by" onchange="sortCategoryBooks(this.value)" style="padding: 8px 15px; border-radius: 20px; border: 1px solid #ddd; outline: none; cursor: pointer;">
+                    <option value="default">Sắp xếp theo</option>
+                    <option value="price-asc">Giá: Thấp đến cao</option>
+                    <option value="price-desc">Giá: Cao đến thấp</option>
+                    <option value="name-asc">Tên: A-Z</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="books-grid" id="category-books-grid">
+            </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom" style="border-top: none; padding-top: 0;">
+                <p>Copyright © 2025 BookStore</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/data.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/category.js"></script>
+</body>
+</html>
