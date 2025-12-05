@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi tiết sách - BookStore</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+    <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-top">
+                <div class="logo">
+                    <a href="../index.html">
+                        <i class="fas fa-book"></i>
+                        <span class="logo-text">BookStore</span>
+                    </a>
+                </div>
+                
+                <div class="search-box">
+                    <input type="text" id="search-input" placeholder="Tìm sách, tác giả, thể loại...">
+                    <button id="search-btn">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+                
+                <div class="header-actions" id="header-actions">
+                    <a href="login.html" class="btn-login">
+                        <i class="fas fa-user"></i>
+                        <span>Đăng nhập</span>
+                    </a>
+                    <a href="register.html" class="btn-register">
+                        <i class="fas fa-user-plus"></i>
+                        <span>Đăng ký</span>
+                    </a>
+                    <a href="cart.html" class="btn-cart">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-count">0</span>
+                    </a>
+                </div>
+                
+                <button class="menu-toggle" id="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            
+            <nav class="navbar" id="navbar">
+                <ul class="nav-menu">
+                    <li><a href="../index.html"><i class="fas fa-home"></i> Trang chủ</a></li>
+                    
+                    <li class="dropdown">
+                        <a href="javascript:void(0)">
+                            <i class="fas fa-list"></i> Danh mục <i class="fas fa-chevron-down" style="font-size: 12px; margin-left: 5px;"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="../index.html">Văn học</a></li>
+                            <li><a href="../index.html">Kinh tế</a></li>
+                            <li><a href="../index.html">Kỹ năng</a></li>
+                            <li><a href="../index.html">Thiếu nhi</a></li>
+                            <li><a href="../index.html">Ngoại ngữ</a></li>
+                            <li><a href="../index.html">Giáo khoa</a></li>
+                        </ul>
+                    </li>
+
+                    <li><a href="#" class="active"><i class="fas fa-info-circle"></i> Chi tiết sách</a></li>
+                    <li><a href="cart.html"><i class="fas fa-shopping-cart"></i> Giỏ hàng</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container" style="padding: 40px 15px;">
+        <div id="product-detail">
+            <div style="text-align: center; padding: 50px;">
+                <i class="fas fa-spinner fa-spin" style="font-size: 48px; color: #3498db;"></i>
+                <p>Đang tải thông tin sách...</p>
+            </div>
+        </div>
+        
+        <div style="text-align: center; margin-top: 40px;">
+            <a href="../index.html" class="btn" style="background-color: #95a5a6;">
+                <i class="fas fa-arrow-left"></i> Quay lại trang chủ
+            </a>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3><i class="fas fa-book"></i> BookStore</h3>
+                    <p>Thiên đường sách dành cho mọi lứa tuổi.</p>
+                    <div class="social-links">
+                       <a href="https://facebook.com/ngoc.toan.909532" target="_blank" title="Facebook BookStore">
+                         <i class="fab fa-facebook"></i>
+                       </a>
+                       <a href="#"><i class="fab fa-instagram"></i></a>
+                       <a href="#"><i class="fab fa-youtube"></i></a>
+                       <a href="#"><i class="fab fa-tiktok"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Liên hệ</h3>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-map-marker-alt"></i> 43 Chùa Bộc, Đống Đa, Hà Nội</li>
+                        <li><i class="fas fa-phone"></i> 0987 685 442</li>
+                        <li><i class="fas fa-envelope"></i> info@bookstore.vn</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>Copyright © 2025 BookStore</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/data.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/product.js"></script>
+</body>
+</html>

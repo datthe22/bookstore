@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookStore - Thiên đường sách</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-top">
+                <div class="logo">
+                    <a href="index.html">
+                        <i class="fas fa-book"></i>
+                        <span class="logo-text">BookStore</span>
+                    </a>
+                </div>
+                
+                <div class="search-box">
+                    <input type="text" id="search-input" placeholder="Tìm sách, tác giả, thể loại...">
+                    <button id="search-btn">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+                
+                <div class="header-actions" id="header-actions">
+                    <a href="pages/login.html" class="btn-login">
+                        <i class="fas fa-user"></i>
+                        <span>Đăng nhập</span>
+                    </a>
+                    <a href="pages/register.html" class="btn-register">
+                        <i class="fas fa-user-plus"></i>
+                        <span>Đăng ký</span>
+                    </a>
+                    <a href="pages/cart.html" class="btn-cart">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-count">0</span>
+                    </a>
+                </div>
+                
+                <button class="menu-toggle" id="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            
+            <nav class="navbar" id="navbar">
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="active"><i class="fas fa-home"></i> Trang chủ</a></li>
+                    
+                    <li class="dropdown">
+                        <a href="javascript:void(0)">
+                            <i class="fas fa-list"></i> Danh mục <i class="fas fa-chevron-down" style="font-size: 12px; margin-left: 5px;"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#" class="nav-category" data-category="Văn học">Văn học</a></li>
+                            <li><a href="#" class="nav-category" data-category="Kinh tế">Kinh tế</a></li>
+                            <li><a href="#" class="nav-category" data-category="Kỹ năng">Kỹ năng</a></li>
+                            <li><a href="#" class="nav-category" data-category="Thiếu nhi">Thiếu nhi</a></li>
+                            <li><a href="#" class="nav-category" data-category="Ngoại ngữ">Ngoại ngữ</a></li>
+                            <li><a href="#" class="nav-category" data-category="Giáo khoa">Giáo khoa</a></li>
+                        </ul>
+                    </li>
+
+                    <li><a href="#featured-section"><i class="fas fa-star"></i> Sách nổi bật</a></li>
+                    <li><a href="#bestseller-section"><i class="fas fa-fire"></i> Sách bán chạy</a></li>
+                    <li><a href="#promotion-section"><i class="fas fa-tag"></i> Khuyến mãi</a></li>
+                    <li><a href="#about-section"><i class="fas fa-info-circle"></i> Giới thiệu</a></li>
+                    <li><a href="#contact-section"><i class="fas fa-phone"></i> Liên hệ</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section id="search-results-section" class="container" style="display: none; padding: 40px 15px; min-height: 60vh;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+    <h2 class="section-title" style="margin-bottom: 0; text-align: left;">
+        <i class="fas fa-search"></i> Kết quả tìm kiếm
+    </h2>
+    
+    <button onclick="closeSearch()" class="btn-close-search" title="Đóng tìm kiếm">
+        <i class="fas fa-times"></i>
+    </button>
+</div>
+        
+        <p id="search-keyword" style="margin-bottom: 20px; font-size: 16px; color: #666;"></p>
+        
+        <div class="books-grid" id="search-results-grid">
+            </div>
+    </section>
+
+    <div id="home-content">
+
+        <section class="banner-section">
+            <div class="container">
+                <div class="banner-slider">
+                    <div class="banner-slide active">
+                        <img src="images/banners/banner1.jpg" alt="Banner 1">
+                        <div class="banner-content">
+                            <h2>Mùa hè đọc sách</h2>
+                            <p>Giảm giá đến 50% cho tất cả sách văn học</p>
+                            <a href="#featured-section" class="btn-banner">Mua ngay</a>
+                        </div>
+                    </div>
+                    <div class="banner-slide">
+                        <img src="images/banners/banner2.jpg" alt="Banner 2">
+                        <div class="banner-content">
+                            <h2>Sách mới cập nhật</h2>
+                            <p>Hàng trăm đầu sách mới mỗi tuần</p>
+                            <a href="#featured-section" class="btn-banner">Khám phá</a>
+                        </div>
+                    </div>
+                    <button class="slider-btn prev-btn"><i class="fas fa-chevron-left"></i></button>
+                    <button class="slider-btn next-btn"><i class="fas fa-chevron-right"></i></button>
+                    <div class="slider-dots">
+                        <span class="dot active"></span>
+                        <span class="dot"></span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="categories-section" id="categories-section">
+            <div class="container">
+                <h2 class="section-title"><i class="fas fa-th-large"></i> Khám phá theo danh mục</h2>
+                <p class="section-subtitle">Chọn danh mục yêu thích và khám phá thế giới sách đa dạng</p>
+                
+                <div class="categories-banner-grid">
+                    <a href="#" class="category-banner" data-category="Văn học">
+                        <div class="banner-image" style="background-image: url('images/books/nhagiakim.jpg');"></div>
+                        <div class="banner-overlay"></div>
+                        <div class="banner-content">
+                            <div class="category-icon"><i class="fas fa-pen-nib"></i></div>
+                            <h3 class="category-title">Văn học</h3>
+                            <p class="category-desc">Tiểu thuyết, truyện ngắn, thơ ca</p>
+                            <div class="banner-badge">Xem ngay <i class="fas fa-arrow-right"></i></div>
+                        </div>
+                    </a>
+                    
+                    <a href="#" class="category-banner" data-category="Kinh tế">
+                        <div class="banner-image" style="background-image: url('images/books/khoinghiep.jpg');"></div>
+                        <div class="banner-overlay"></div>
+                        <div class="banner-content">
+                            <div class="category-icon"><i class="fas fa-chart-line"></i></div>
+                            <h3 class="category-title">Kinh tế</h3>
+                            <p class="category-desc">Đầu tư, quản lý, tài chính</p>
+                            <div class="banner-badge">Khám phá <i class="fas fa-arrow-right"></i></div>
+                        </div>
+                    </a>
+                    
+                    <a href="#" class="category-banner" data-category="Kỹ năng">
+                        <div class="banner-image" style="background-image: url('images/books/dacnhantam.jpg');"></div>
+                        <div class="banner-overlay"></div>
+                        <div class="banner-content">
+                            <div class="category-icon"><i class="fas fa-lightbulb"></i></div>
+                            <h3 class="category-title">Kỹ năng</h3>
+                            <p class="category-desc">Phát triển bản thân, giao tiếp</p>
+                            <div class="banner-badge">Xem ngay <i class="fas fa-arrow-right"></i></div>
+                        </div>
+                    </a>
+                    
+                    <a href="#" class="category-banner" data-category="Thiếu nhi">
+                        <div class="banner-image" style="background-image: url('images/books/harrypotter.jpg');"></div>
+                        <div class="banner-overlay"></div>
+                        <div class="banner-content">
+                            <div class="category-icon"><i class="fas fa-child"></i></div>
+                            <h3 class="category-title">Thiếu nhi</h3>
+                            <p class="category-desc">Truyện tranh, sách tô màu, giáo dục</p>
+                            <div class="banner-badge">Mua ngay <i class="fas fa-arrow-right"></i></div>
+                        </div>
+                    </a>
+                    
+                    <a href="#" class="category-banner" data-category="Ngoại ngữ">
+                        <div class="banner-image" style="background-image: url('images/books/tienganh.jpg');"></div>
+                        <div class="banner-overlay"></div>
+                        <div class="banner-content">
+                            <div class="category-icon"><i class="fas fa-globe"></i></div>
+                            <h3 class="category-title">Ngoại ngữ</h3>
+                            <p class="category-desc">Tiếng Anh, Nhật, Hàn, Trung</p>
+                            <div class="banner-badge">Học ngay <i class="fas fa-arrow-right"></i></div>
+                        </div>
+                    </a>
+                    
+                    <a href="#" class="category-banner" data-category="Giáo khoa">
+                        <div class="banner-image" style="background-image: url('images/books/toan10.jpg');"></div>
+                        <div class="banner-overlay"></div>
+                        <div class="banner-content">
+                            <div class="category-icon"><i class="fas fa-graduation-cap"></i></div>
+                            <h3 class="category-title">Giáo khoa</h3>
+                            <p class="category-desc">Sách từ lớp 1 đến 12, đại học</p>
+                            <div class="banner-badge">Mua sắm <i class="fas fa-arrow-right"></i></div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section class="filter-section">
+            <div class="container">
+                <h2 class="section-title"><i class="fas fa-filter"></i> Lọc sách theo thể loại</h2>
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-category="all">Tất cả</button>
+                    <button class="filter-btn" data-category="Văn học">Văn học</button>
+                    <button class="filter-btn" data-category="Kinh tế">Kinh tế</button>
+                    <button class="filter-btn" data-category="Kỹ năng">Kỹ năng</button>
+                    <button class="filter-btn" data-category="Thiếu nhi">Thiếu nhi</button>
+                    <button class="filter-btn" data-category="Ngoại ngữ">Ngoại ngữ</button>
+                    <button class="filter-btn" data-category="Giáo khoa">Giáo khoa</button>
+                </div>
+                
+                <div class="filter-results">
+                    <div class="filter-stats">
+                        <span id="result-count">0</span> sách được tìm thấy
+                    </div>
+                    <div class="filter-sort">
+                        <select id="sort-by">
+                            <option value="default">Sắp xếp theo</option>
+                            <option value="price-asc">Giá: Thấp đến cao</option>
+                            <option value="price-desc">Giá: Cao đến thấp</option>
+                            <option value="name-asc">Tên: A-Z</option>
+                            <option value="name-desc">Tên: Z-A</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="books-grid" id="filtered-books">
+                    </div>
+            </div>
+        </section>
+
+        <section class="featured-section" id="featured-section">
+            <div class="container">
+                <h2 class="section-title"><i class="fas fa-star"></i> Sách nổi bật</h2>
+                <div class="books-grid" id="featured-books">
+                    </div>
+            </div>
+        </section>
+
+        <section class="bestseller-section" id="bestseller-section">
+            <div class="container">
+                <h2 class="section-title"><i class="fas fa-fire"></i> Sách bán chạy</h2>
+                <div class="books-grid" id="bestseller-books">
+                    </div>
+            </div>
+        </section>
+
+        <section class="about-section" id="about-section">
+            <div class="container">
+                <h2 class="section-title"><i class="fas fa-info-circle"></i> Giới thiệu BookStore</h2>
+                <div class="about-content">
+                    <div class="about-text">
+                        <h3>Chào mừng đến với BookStore!</h3>
+                        <p>BookStore là trang web bán sách trực tuyến hàng đầu, cung cấp đa dạng các thể loại sách từ văn học, kinh tế, kỹ năng đến sách thiếu nhi, ngoại ngữ và giáo khoa.</p>
+                        <p>Với phương châm <strong>"Mang tri thức đến mọi nhà"</strong>, chúng tôi cam kết:</p>
+                        <ul>
+                            <li><i class="fas fa-check-circle"></i> Cung cấp sách chất lượng với giá cả hợp lý</li>
+                            <li><i class="fas fa-check-circle"></i> Giao hàng nhanh chóng trên toàn quốc</li>
+                            <li><i class="fas fa-check-circle"></i> Hỗ trợ khách hàng 24/7</li>
+                            <li><i class="fas fa-check-circle"></i> Đổi trả sách dễ dàng trong 7 ngày</li>
+                        </ul>
+                    </div>
+                    <div class="about-stats">
+                        <div class="stat-item">
+                            <i class="fas fa-book-open"></i>
+                            <h3>10,000+</h3>
+                            <p>Đầu sách đa dạng</p>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-users"></i>
+                            <h3>50,000+</h3>
+                            <p>Khách hàng tin tưởng</p>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-shipping-fast"></i>
+                            <h3>63</h3>
+                            <p>Tỉnh thành giao hàng</p>
+                        </div>
+                        <div class="stat-item">
+                            <i class="fas fa-star"></i>
+                            <h3>4.9/5</h3>
+                            <p>Đánh giá từ khách hàng</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="promotion-section" id="promotion-section">
+            <div class="container">
+                <h2 class="section-title"><i class="fas fa-gift"></i> Khuyến mãi hot</h2>
+                <div class="promotion-grid">
+                    <div class="promotion-card">
+                        <div class="promotion-badge">-30%</div>
+                        <img src="images/books/nhagiakim.jpg" alt="Khuyến mãi 1">
+                        <div class="promotion-content">
+                            <h3>Combo sách văn học</h3>
+                            <p>Mua 3 tặng 1 + Free ship</p>
+                            <a href="#" class="btn-promotion">Chi tiết</a>
+                        </div>
+                    </div>
+                    <div class="promotion-card">
+                        <div class="promotion-badge">Freeship</div>
+                        <img src="images/books/bogia.jpg" alt="Khuyến mãi 2">
+                        <div class="promotion-content">
+                            <h3>Đơn hàng từ 200k</h3>
+                            <p>Miễn phí vận chuyển toàn quốc</p>
+                            <a href="#" class="btn-promotion">Mua ngay</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div> <footer class="footer" id="contact-section">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3><i class="fas fa-book"></i> BookStore</h3>
+                    <p>Thiên đường sách dành cho mọi lứa tuổi. Cam kết chất lượng và giá tốt nhất thị trường.</p>
+                    <div class="social-links">
+                       <a href="https://facebook.com/ngoc.toan.909532" target="_blank" title="Facebook BookStore">
+                         <i class="fab fa-facebook"></i>
+                       </a>
+                       <a href="#"><i class="fab fa-instagram"></i></a>
+                       <a href="#"><i class="fab fa-youtube"></i></a>
+                       <a href="#"><i class="fab fa-tiktok"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Thông tin</h3>
+                    <ul>
+                        <li><a href="#">Giới thiệu</a></li>
+                        <li><a href="#">Chính sách bảo mật</a></li>
+                        <li><a href="#">Điều khoản sử dụng</a></li>
+                        <li><a href="#">Chính sách vận chuyển</a></li>
+                        <li><a href="#">Hướng dẫn đổi trả</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Hỗ trợ</h3>
+                    <ul>
+                        <li><a href="#">Trung tâm trợ giúp</a></li>
+                        <li><a href="#">Hướng dẫn mua hàng</a></li>
+                        <li><a href="#">Thanh toán</a></li>
+                        <li><a href="#">Kiểm tra đơn hàng</a></li>
+                        <li><a href="#">Câu hỏi thường gặp</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Liên hệ</h3>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-map-marker-alt"></i> 43 Chùa Bộc, Đống Đa, Hà Nội</li>
+                        <li><i class="fas fa-phone"></i> 0987 685 442</li>
+                        <li><i class="fas fa-envelope"></i> info@bookstore.vn</li>
+                        <li><i class="fas fa-clock"></i> 8:00 - 22:00 (T2 - CN)</li>
+                    </ul>
+                    
+                    <div class="map-link" style="margin-top: 15px;">
+                        <a href="https://maps.google.com/?q=43+Chùa+Bộc,+Đống+Đa,+Hà+Nội" target="_blank" style="color: #3498db; text-decoration: none;">
+                            <i class="fas fa-map-marked-alt"></i> Xem trên bản đồ
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>Copyright © 2025 BookStore. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/data.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
