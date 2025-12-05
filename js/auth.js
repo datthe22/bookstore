@@ -42,7 +42,6 @@ window.authManager = new AuthManager();
 
 function showNotification(message, type = 'success') {
     let notification = document.getElementById('notification');
-    // Nếu chưa có html notification thì tạo động
     if (!notification) {
         notification = document.createElement('div');
         notification.id = 'notification';
@@ -75,7 +74,7 @@ function togglePassword(inputId) {
     else { input.type = 'password'; icon.className = 'fas fa-eye'; }
 }
 
-// Validation Helpers (Giữ nguyên)
+// Validation Helpers
 function validateEmail(email) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email); }
 function validatePhone(phone) { return /^(0|\+84)(3[2-9]|5[689]|7[06-9]|8[1-9]|9[0-9])[0-9]{7}$/.test(phone); }
 function validatePassword(password) { return password.length >= 6; }
@@ -88,7 +87,7 @@ function clearError(elementId) {
     if(el) { el.textContent = ''; el.classList.remove('show'); } 
 }
 
-// Logic Register Form (Giữ nguyên logic cũ, chỉ rút gọn để đỡ dài)
+// Logic Register Form
 if (document.getElementById('registerForm')) {
     document.getElementById('registerForm').addEventListener('submit', function(e) {
         e.preventDefault();
@@ -202,6 +201,28 @@ function addUserDropdownStyles() {
     document.head.appendChild(style);
 }
 
+// XỬ LÝ TÌM KIẾM TOÀN CỤC (GLOBAL SEARCH)
+function handleGlobalSearch() {
+    const searchInput = document.getElementById('search-input');
+    const keyword = searchInput ? searchInput.value.trim() : '';
+    
+    if (!keyword) return;
+
+    // Kiểm tra xem có đang ở trang chủ không
+    const isHomePage = !window.location.pathname.includes('/pages/');
+
+    if (isHomePage) {
+        // Nếu ở trang chủ, gọi hàm searchBooks của main.js
+        if (typeof searchBooks === 'function') {
+            searchBooks();
+        }
+    } else {
+        // Nếu ở trang con, chuyển hướng về trang chủ kèm từ khóa
+        // encodeURIComponent để xử lý tiếng Việt và ký tự đặc biệt
+        window.location.href = `../index.html?search=${encodeURIComponent(keyword)}`;
+    }
+}
+
 // Init
 document.addEventListener('DOMContentLoaded', function() {
     if (authManager.isLoggedIn() && (location.pathname.includes('login') || location.pathname.includes('register'))) {
@@ -209,18 +230,18 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     if (!document.querySelector('.auth-container')) updateHeaderUserInfo();
 
-    // Xử lý tìm kiếm toàn cục (fix lỗi search ở trang con)
+    // Gán sự kiện tìm kiếm
     const searchBtn = document.getElementById('search-btn');
     const searchInput = document.getElementById('search-input');
-    const isHomePage = !window.location.pathname.includes('/pages/');
 
-    if (!isHomePage && searchBtn) {
-        const handleRedirectSearch = () => {
-            alert("Chức năng tìm kiếm chỉ hoạt động ở Trang chủ.\nBấm OK để về Trang chủ.");
-            window.location.href = '../index.html';
+    if (searchBtn) {
+        searchBtn.onclick = handleGlobalSearch;
+    }
+    
+    if (searchInput) {
+        searchInput.onkeypress = (e) => { 
+            if(e.key === 'Enter') handleGlobalSearch(); 
         };
-        searchBtn.onclick = handleRedirectSearch;
-        if(searchInput) searchInput.onkeypress = (e) => { if(e.key === 'Enter') handleRedirectSearch(); };
     }
 });
 

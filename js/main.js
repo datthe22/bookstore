@@ -24,16 +24,13 @@ function displayBooks(books, containerId) {
     books.forEach(book => {
         const bookCard = document.createElement('div');
         bookCard.className = 'book-card';
-        // THÊM SỰ KIỆN CLICK VÀO CẢ THẺ ĐỂ XEM CHI TIẾT
         bookCard.onclick = function(e) {
-            // Nếu bấm vào nút thêm giỏ thì không chuyển trang
             if (!e.target.closest('.btn-add-cart')) {
                 viewDetail(book.id);
             }
         };
-        bookCard.style.cursor = 'pointer'; // Thêm con trỏ tay
+        bookCard.style.cursor = 'pointer';
         
-        // Tính giảm giá
         const hasDiscount = book.originalPrice > book.price;
         const discountPercent = hasDiscount 
             ? Math.round((1 - book.price / book.originalPrice) * 100) 
@@ -76,24 +73,18 @@ function addToCart(bookId) {
     const book = booksData.find(b => b.id === bookId);
     if (!book) return;
     
-    // Cập nhật lại giỏ hàng từ localStorage để tránh bị ghi đè
     cart = JSON.parse(localStorage.getItem('cart')) || [];
-    
     const existingItem = cart.find(item => item.id === bookId);
     
     if (existingItem) {
         existingItem.quantity += 1;
     } else {
-        cart.push({
-            ...book,
-            quantity: 1
-        });
+        cart.push({ ...book, quantity: 1 });
     }
     
     localStorage.setItem('cart', JSON.stringify(cart));
     updateCartCount();
     
-    // Hiển thị thông báo (dùng hàm từ auth.js nếu có, không thì alert)
     if (typeof showNotification === 'function') {
         showNotification(`Đã thêm "${book.title}" vào giỏ hàng!`);
     } else {
@@ -153,6 +144,7 @@ function searchBooks() {
     
     if (!searchInput || !homeContent || !searchSection) return;
     
+    // Nếu keyword được truyền vào từ URL, lấy từ đó. Nếu không, lấy từ input
     const searchTerm = searchInput.value.toLowerCase().trim();
     
     if (searchTerm === '') {
@@ -185,7 +177,6 @@ function searchBooks() {
             const hasDiscount = book.originalPrice > book.price;
             const discountPercent = hasDiscount ? Math.round((1 - book.price / book.originalPrice) * 100) : 0;
             
-            // Xử lý click cho kết quả tìm kiếm
             const bookDiv = document.createElement('div');
             bookDiv.className = 'book-card';
             bookDiv.onclick = function(e) {
@@ -218,7 +209,10 @@ function searchBooks() {
             searchGrid.appendChild(bookDiv);
         });
     }
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    // Cuộn xuống một chút để qua khỏi header
+    setTimeout(() => {
+        window.scrollTo({ top: 100, behavior: 'smooth' });
+    }, 100);
 }
 
 function closeSearch() {
@@ -230,18 +224,17 @@ function closeSearch() {
         homeContent.style.display = 'block';
         searchSection.style.display = 'none';
         if(searchInput) searchInput.value = '';
+        window.history.pushState({}, document.title, window.location.pathname); // Xóa query param trên URL
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 }
 window.closeSearch = closeSearch;
 
-// 7. Menu mobile
 function setupMobileMenu() {
     const menuToggle = document.getElementById('menu-toggle');
     const navbar = document.getElementById('navbar');
     
     if (menuToggle && navbar) {
-        // Clone node để xóa sự kiện cũ tránh trùng lặp
         const newMenuToggle = menuToggle.cloneNode(true);
         menuToggle.parentNode.replaceChild(newMenuToggle, menuToggle);
 
@@ -256,12 +249,10 @@ function setupMobileMenu() {
         });
     }
     
-    // Dropdown mobile
     const dropdowns = document.querySelectorAll('.dropdown');
     dropdowns.forEach(dropdown => {
         dropdown.addEventListener('click', function(e) {
             if (window.innerWidth <= 768) {
-                // e.preventDefault();
                 this.classList.toggle('active');
             }
         });
@@ -271,7 +262,6 @@ function setupMobileMenu() {
 // ===== KHỞI TẠO =====
 document.addEventListener('DOMContentLoaded', function() {
     if (typeof booksData !== 'undefined') {
-        // Init HomePage Data
         displayBooks(booksData.slice(0, 4), 'featured-books');
         displayBooks(booksData.filter(b => b.isBestseller), 'bestseller-books');
     }
@@ -279,7 +269,6 @@ document.addEventListener('DOMContentLoaded', function() {
     updateCartCount();
     setupMobileMenu();
     
-    // Init Slider
     if (slides.length > 0) {
         showSlide(0);
         setInterval(nextSlide, 5000);
@@ -288,13 +277,20 @@ document.addEventListener('DOMContentLoaded', function() {
         dots.forEach((dot, index) => dot.addEventListener('click', () => showSlide(index)));
     }
     
-    // Init Search
-    const searchBtn = document.getElementById('search-btn');
-    const searchInput = document.getElementById('search-input');
-    if (searchBtn) searchBtn.addEventListener('click', searchBooks);
-    if (searchInput) searchInput.addEventListener('keypress', (e) => { if(e.key === 'Enter') searchBooks(); });
+    // --- XỬ LÝ TÌM KIẾM TỪ TRANG KHÁC CHUYỂN VỀ ---
+    const urlParams = new URLSearchParams(window.location.search);
+    const searchParam = urlParams.get('search');
     
-    // Smooth Scroll Link
+    if (searchParam) {
+        const searchInput = document.getElementById('search-input');
+        if (searchInput) {
+            // Giải mã URL (ví dụ %20 -> khoảng trắng)
+            searchInput.value = decodeURIComponent(searchParam);
+            // Gọi hàm tìm kiếm ngay lập tức
+            searchBooks();
+        }
+    }
+    
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
