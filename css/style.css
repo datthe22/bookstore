@@ -1011,3 +1011,75 @@ img { max-width: 100%; height: auto; display: block; }
     .next-preview { right: 10px; background: rgba(0,0,0,0.5); }
     .close-preview { top: 10px; right: 10px; z-index: 10; }
 }
+
+/* =========================================
+   NÂNG CẤP GIAO DIỆN (Dán vào cuối file style.css)
+   ========================================= */
+
+/* 1. Nâng cấp màu sắc & Font */
+:root {
+    --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --gradient-gold: linear-gradient(120deg, #f6d365 0%, #fda085 100%);
+    --shadow-soft: 0 10px 40px -10px rgba(0,64,128,0.15);
+}
+
+html { scroll-behavior: smooth; }
+
+/* 2. Header hiệu ứng kính mờ (Glassmorphism) xịn hơn */
+.header {
+    background: rgba(255, 255, 255, 0.85) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+}
+
+/* 3. Thẻ sách (Book Card) - Hiệu ứng bay lên khi di chuột */
+.book-card {
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.5);
+    background: white;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+    overflow: hidden;
+}
+
+.book-card:hover {
+    transform: translateY(-10px) scale(1.02) !important;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15) !important;
+    border-color: #a8c0ff;
+}
+
+/* Ảnh bìa sách zoom nhẹ */
+.book-image img { transition: transform 0.6s ease; }
+.book-card:hover .book-image img { transform: scale(1.1) rotate(2deg); }
+
+/* 4. Nút bấm (Button) Gradient & Phát sáng */
+.btn-add-cart, .btn-checkout, .primary-btn, .btn-banner, .btn-login, .btn-register {
+    background-image: var(--gradient-primary) !important;
+    background-color: transparent !important;
+    color: white !important;
+    border: none;
+    box-shadow: 0 4px 15px rgba(118, 75, 162, 0.4);
+    transition: 0.5s;
+}
+
+.btn-add-cart:hover, .btn-checkout:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(118, 75, 162, 0.6);
+    filter: brightness(1.1);
+}
+
+/* 5. Footer lung linh hơn */
+.footer {
+    background: #1a202c !important;
+    position: relative;
+    overflow: hidden;
+}
+/* Tạo đốm sáng mờ ảo ở footer */
+.footer::before {
+    content: ''; position: absolute; top: -50px; left: -50px;
+    width: 300px; height: 300px;
+    background: var(--gradient-primary);
+    filter: blur(100px); opacity: 0.2; border-radius: 50%; pointer-events: none;
+}

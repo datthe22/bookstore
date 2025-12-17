@@ -427,3 +427,29 @@
         max-width: none;
     }
 }
+
+/* --- HIỆU ỨNG NỀN ĐỘNG CHO TRANG LOGIN/REGISTER --- */
+.auth-container {
+    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab) !important;
+    background-size: 400% 400% !important;
+    animation: gradientBG 15s ease infinite;
+    position: relative; z-index: 1;
+}
+
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Bong bóng trang trí */
+.auth-container::before {
+    content: ''; position: absolute; bottom: -50px; left: 10%;
+    width: 100px; height: 100px; background: rgba(255,255,255,0.1);
+    border-radius: 50%; z-index: -1; animation: floatBubble 10s infinite;
+}
+@keyframes floatBubble {
+    0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+    50% { opacity: 1; }
+    100% { transform: translateY(-800px) rotate(360deg); opacity: 0; }
+}
