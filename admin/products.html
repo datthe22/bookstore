@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý sản phẩm - BookStore Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="css/admin-style.css">
+</head>
+<body>
+    
+    <div class="sidebar">
+        <div class="sidebar-brand"><i class="fas fa-book-reader"></i> BookStore Admin</div>
+        <ul class="sidebar-menu">
+            <li><a href="index.html"><i class="fas fa-tachometer-alt"></i> <span>Tổng quan</span></a></li>
+            <li><a href="products.html" class="active"><i class="fas fa-box"></i> <span>Sản phẩm</span></a></li>
+            <li><a href="orders.html"><i class="fas fa-shopping-bag"></i> <span>Đơn hàng</span></a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <header>
+            <h2><label for="nav-toggle"><i class="fas fa-bars"></i></label> <span id="page-title">Quản lý</span></h2>
+            <a href="../index.html" class="btn-home"><i class="fas fa-home"></i> Xem trang chủ</a>
+            <div class="user-wrapper">
+                <img src="https://ui-avatars.com/api/?name=Admin&background=random" width="40px" height="40px" alt="">
+                <div><h4>Admin</h4><small>Super Admin</small></div>
+            </div>
+        </header>
+
+        <main>
+            <div class="card">
+                <div class="card-header">
+                    <h3>Danh sách đầu sách</h3>
+                    <button onclick="openModal()" style="background: var(--main-color); color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
+                        <i class="fas fa-plus"></i> Thêm sách mới
+                    </button>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table width="100%">
+                            <thead>
+                                <tr>
+                                    <td>ID</td>
+                                    <td>Hình ảnh</td>
+                                    <td>Tên sách</td>
+                                    <td>Giá bán</td>
+                                    <td>Danh mục</td>
+                                    <td>Hành động</td>
+                                </tr>
+                            </thead>
+                            <tbody id="product-table-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="modalTitle" style="margin-bottom: 20px;">Thêm sách mới</h2>
+            <form id="productForm">
+                <input type="hidden" id="bookId">
+                <div class="form-group">
+                    <label>Tên sách</label>
+                    <input type="text" id="bookTitle" required placeholder="Nhập tên sách">
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Tác giả</label>
+                        <input type="text" id="bookAuthor" required placeholder="Tên tác giả">
+                    </div>
+                    <div class="form-group">
+                        <label>Danh mục</label>
+                        <select id="bookCategory">
+                            <option value="Văn học">Văn học</option>
+                            <option value="Kinh tế">Kinh tế</option>
+                            <option value="Kỹ năng">Kỹ năng</option>
+                            <option value="Thiếu nhi">Thiếu nhi</option>
+                            <option value="Ngoại ngữ">Ngoại ngữ</option>
+                            <option value="Giáo khoa">Giáo khoa</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Giá bán (đ)</label>
+                        <input type="number" id="bookPrice" required placeholder="VD: 50000">
+                    </div>
+                    <div class="form-group">
+                        <label>Giá gốc (đ)</label>
+                        <input type="number" id="bookOriginalPrice" placeholder="VD: 70000">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Ảnh bìa chính</label>
+                    <input type="file" id="uploadInput" accept="image/*" style="border: 1px dashed #3498db; padding: 10px; background: #f0f7fd;">
+                    <input type="text" id="bookImage" readonly style="background: #eee; margin-top: 5px; color: #555;" placeholder="Đường dẫn sẽ tự hiện ở đây...">
+                    <div style="margin-top: 10px;">
+                        <img id="imagePreview" src="" alt="Preview" style="display: none; height: 100px; border-radius: 5px; border: 1px solid #ddd; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                    </div>
+                </div>
+
+                <div class="form-group" style="background: #fdfdfd; padding: 15px; border: 1px solid #eee; border-radius: 8px;">
+                    <label style="color: #d35400; font-weight: bold;">Ảnh xem trước (Chọn Thư Mục)</label>
+                    
+                    <div style="margin-bottom: 10px;">
+                        <label style="font-size: 13px; color: #555;">Bấm nút dưới và chọn thư mục chứa ảnh :</label>
+                        
+                        <input type="file" id="uploadFolderInput" webkitdirectory directory multiple style="border: 1px dashed #e67e22; padding: 10px; background: #fff8e1; width: 100%;">
+                    </div>
+                    
+
+                    <textarea id="bookPreviewImages" rows="4" readonly style="background: #eee; margin-top: 10px; color: #555;" placeholder="Đường dẫn sẽ tự hiện ở đây..."></textarea>
+                    
+                    <div id="previewContainer" style="display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap;"></div>
+                </div>
+
+                <div class="form-group">
+                    <label>Mô tả sách</label>
+                    <textarea id="bookDesc" rows="4" placeholder="Nhập mô tả ngắn..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+                        <input type="checkbox" id="bookBestseller" style="width: auto;"> Là sách bán chạy?
+                    </label>
+                </div>
+
+                <button type="submit" class="btn-save">Lưu lại</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/products.js"></script>
+</body>
+</html>

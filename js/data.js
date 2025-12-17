@@ -1,5 +1,5 @@
 // File: js/data.js
-const booksData = [
+const defaultBooksData = [
     // --- 8 QUYỂN CŨ ---
     {
         id: 1,
@@ -292,3 +292,16 @@ const booksData = [
         ]
     }
 ];
+
+// HÀM KHỞI TẠO DỮ LIỆU
+// Logic: Nếu localStorage chưa có sách -> Lấy từ default lưu vào.
+// Nếu có rồi -> Lấy từ localStorage ra dùng.
+function initBooksData() {
+    if (!localStorage.getItem('bookstore_products')) {
+        localStorage.setItem('bookstore_products', JSON.stringify(defaultBooksData));
+    }
+    return JSON.parse(localStorage.getItem('bookstore_products'));
+}
+
+// Biến toàn cục để các file khác dùng
+const booksData = initBooksData();

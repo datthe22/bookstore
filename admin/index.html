@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - BookStore Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="css/admin-style.css">
+</head>
+<body>
+    
+    <div class="sidebar">
+        <div class="sidebar-brand">
+            <i class="fas fa-book-reader"></i> BookStore Admin
+        </div>
+        <ul class="sidebar-menu">
+            <li>
+                <a href="index.html" class="">
+                    <i class="fas fa-tachometer-alt"></i> <span>Tổng quan</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="products.html" class="">
+                    <i class="fas fa-box"></i> <span>Sản phẩm</span>
+                </a>
+            </li>
+            
+            <li>
+                <a href="orders.html" class="">
+                    <i class="fas fa-shopping-bag"></i> <span>Đơn hàng</span>
+                </a>
+            </li>
+
+            </ul>
+    </div>
+
+    <div class="main-content">
+        <header>
+            <h2>
+                <label for="nav-toggle"><i class="fas fa-bars"></i></label>
+                <span id="page-title">Quản lý</span> 
+            </h2>
+
+            <a href="../index.html" class="btn-home">
+                <i class="fas fa-home"></i> Xem trang chủ
+            </a>
+            <div class="user-wrapper">
+                <img src="https://ui-avatars.com/api/?name=Admin&background=random" width="40px" height="40px" alt="">
+                <div><h4>Admin</h4><small>Super Admin</small></div>
+            </div>
+        </header>
+
+        <main>
+            <div class="cards">
+                <div class="card-single">
+                    <div>
+                        <h1 id="total-users">0</h1>
+                        <span>Khách hàng</span>
+                    </div>
+                    <div><i class="fas fa-users"></i></div>
+                </div>
+
+                <div class="card-single">
+                    <div>
+                        <h1 id="total-products">0</h1>
+                        <span>Đầu sách</span>
+                    </div>
+                    <div><i class="fas fa-book"></i></div>
+                </div>
+
+                <div class="card-single">
+                    <div>
+                        <h1 id="total-orders">0</h1>
+                        <span>Đơn hàng</span>
+                    </div>
+                    <div><i class="fas fa-shopping-bag"></i></div>
+                </div>
+
+                <div class="card-single">
+                    <div>
+                        <h1 id="total-revenue">0 đ</h1>
+                        <span>Doanh thu</span>
+                    </div>
+                    <div><i class="fas fa-wallet"></i></div>
+                </div>
+            </div>
+
+            <div class="recent-grid">
+                <div class="projects">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Đơn hàng gần đây</h3>
+                            <button onclick="alert('Chức năng xem tất cả đang làm')">Xem tất cả <i class="fas fa-arrow-right"></i></button>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table width="100%">
+                                    <thead>
+                                        <tr>
+                                            <td>Mã đơn</td>
+                                            <td>Khách hàng</td>
+                                            <td>Ngày đặt</td>
+                                            <td>Tổng tiền</td>
+                                            <td>Trạng thái</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="recent-orders-body">
+                                        </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/admin.js"></script>
+</body>
+</html>

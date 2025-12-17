@@ -162,6 +162,31 @@ function checkout() {
         return; // Dừng lại, không cho thanh toán
     }
 
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        
+        if (cart.length > 0) {
+            const currentUser = window.authManager.getCurrentUser();
+            const totalBill = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            
+            // Tạo đơn hàng
+            const newOrder = {
+                id: 'DH' + Date.now(), // Tạo mã đơn hàng ngẫu nhiên
+                userId: currentUser.id,
+                userName: currentUser.fullName,
+                userPhone: currentUser.phone || 'Chưa cập nhật',
+                items: cart,
+                total: totalBill,
+                status: 'pending', // Trạng thái: Chờ xử lý
+                date: new Date().toISOString()
+            };
+
+            // Lưu vào localStorage 'bookstore_orders'
+            const orders = JSON.parse(localStorage.getItem('bookstore_orders')) || [];
+            orders.unshift(newOrder); // Đưa đơn mới nhất lên đầu
+            localStorage.setItem('bookstore_orders', JSON.stringify(orders));
+        }
+        // ----------------------------------
+
     // 2. Nếu ĐÃ đăng nhập -> Xử lý thanh toán thành công (Giả lập)
     if (typeof showNotification === 'function') {
         showNotification('Đặt hàng thành công! Cảm ơn bạn.', 'success');

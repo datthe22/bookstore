@@ -6,13 +6,16 @@ class AuthManager {
         this.init();
     }
     init() {
-        if (!localStorage.getItem(this.usersKey)) {
-            const sampleUsers = [
-                { id: 1, fullName: "Nguyễn Văn A", email: "user@example.com", phone: "0912345678", password: "123456", createdAt: new Date().toISOString() }
-            ];
-            localStorage.setItem(this.usersKey, JSON.stringify(sampleUsers));
+            if (!localStorage.getItem(this.usersKey)) {
+                const sampleUsers = [
+                    // User thường
+                    { id: 1, fullName: "Nguyễn Văn A", email: "user@example.com", phone: "0912345678", password: "123456", role: "user", createdAt: new Date().toISOString() },
+                    // TÀI KHOẢN ADMIN (Thêm dòng này)
+                    { id: 999, fullName: "Quản Trị Viên", email: "admin@bookstore.com", phone: "0999999999", password: "admin", role: "admin", createdAt: new Date().toISOString() }
+                ];
+                localStorage.setItem(this.usersKey, JSON.stringify(sampleUsers));
+            }
         }
-    }
     getUsers() { return JSON.parse(localStorage.getItem(this.usersKey)) || []; }
     saveUsers(users) { localStorage.setItem(this.usersKey, JSON.stringify(users)); }
     emailExists(email) { return this.getUsers().some(user => user.email === email); }
@@ -160,6 +163,8 @@ if (document.getElementById('loginForm')) {
 }
 
 // Cập nhật Header
+// File: js/auth.js
+
 function updateHeaderUserInfo() {
     const currentUser = authManager.getCurrentUser();
     const headerActions = document.querySelector('.header-actions');
@@ -168,32 +173,50 @@ function updateHeaderUserInfo() {
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
     const cartCount = cart.reduce((total, item) => total + (item.quantity || 1), 0);
     
-    // Đường dẫn fix cho trang chủ và trang con
+    // Xử lý đường dẫn tương đối (để chạy đúng từ cả trang chủ lẫn trang con)
     const isHomePage = !window.location.pathname.includes('/pages/');
     const cartLink = isHomePage ? 'pages/cart.html' : 'cart.html';
     const loginLink = isHomePage ? 'pages/login.html' : 'login.html';
     const registerLink = isHomePage ? 'pages/register.html' : 'register.html';
     
+    // Đường dẫn tới trang Admin
+    const adminLink = isHomePage ? 'admin/index.html' : '../admin/index.html';
+    
     if (currentUser) {
+        // Kiểm tra xem có phải Admin không để hiện nút Dashboard
+        const adminButtonHtml = currentUser.role === 'admin' 
+            ? `<a href="${adminLink}" style="color: #d0011b; font-weight: bold;"><i class="fas fa-tachometer-alt"></i> Quản trị Website</a>` 
+            : '';
+
         headerActions.innerHTML = `
             <div class="user-dropdown">
                 <button class="user-menu-btn">
-                    <i class="fas fa-user-circle"></i> <span>${currentUser.fullName.split(' ')[0]}</span> <i class="fas fa-chevron-down"></i>
+                    <img src="https://ui-avatars.com/api/?name=${currentUser.fullName}&background=random" style="width: 25px; height: 25px; border-radius: 50%; margin-right: 5px;">
+                    <span>${currentUser.fullName.split(' ')[0]}</span> 
+                    <i class="fas fa-chevron-down"></i>
                 </button>
                 <div class="user-dropdown-menu">
+                    ${adminButtonHtml} <a href="${isHomePage ? 'pages/profile.html' : 'profile.html'}"><i class="fas fa-user"></i> Hồ sơ cá nhân</a>
                     <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
                 </div>
             </div>
             <a href="${cartLink}" class="btn-cart"><i class="fas fa-shopping-cart"></i><span class="cart-count">${cartCount}</span></a>
         `;
+        
         addUserDropdownStyles();
+        
+        // Logic bật/tắt menu dropdown
         const btn = headerActions.querySelector('.user-menu-btn');
         const menu = headerActions.querySelector('.user-dropdown-menu');
         if(btn && menu) {
-            btn.onclick = (e) => { e.stopPropagation(); menu.classList.toggle('show'); };
+            btn.onclick = (e) => { 
+                e.stopPropagation(); 
+                menu.classList.toggle('show'); 
+            };
             document.onclick = () => menu.classList.remove('show');
         }
     } else {
+        // Giao diện khi chưa đăng nhập
         headerActions.innerHTML = `
             <a href="${loginLink}" class="btn-login"><i class="fas fa-user"></i> <span>Đăng nhập</span></a>
             <a href="${registerLink}" class="btn-register"><i class="fas fa-user-plus"></i> <span>Đăng ký</span></a>
@@ -201,7 +224,6 @@ function updateHeaderUserInfo() {
         `;
     }
 }
-
 function logout() { authManager.logout(); window.location.reload(); }
 
 function addUserDropdownStyles() {

@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hồ sơ cá nhân - BookStore</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+    <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+    
+    <style>
+        .profile-container { display: grid; grid-template-columns: 250px 1fr; gap: 30px; padding: 40px 0; min-height: 60vh; }
+        
+        /* Sidebar bên trái */
+        .profile-sidebar { background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); height: fit-content; }
+        .user-brief { padding: 20px; border-bottom: 1px solid #eee; display: flex; align-items: center; gap: 15px; }
+        .user-avatar { width: 50px; height: 50px; border-radius: 50%; background: #eee; }
+        .sidebar-nav a { display: block; padding: 15px 20px; color: #555; border-bottom: 1px solid #f9f9f9; transition: 0.3s; cursor: pointer; }
+        .sidebar-nav a:hover, .sidebar-nav a.active { background: #f0f7fd; color: #3498db; font-weight: 500; border-left: 4px solid #3498db; }
+        .sidebar-nav i { width: 25px; }
+
+        /* Nội dung bên phải */
+        .profile-content { background: white; border-radius: 10px; padding: 30px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .tab-content { display: none; animation: fadeIn 0.3s; }
+        .tab-content.active { display: block; }
+        
+        /* Form Styles */
+        .form-row { margin-bottom: 20px; }
+        .form-row label { display: block; margin-bottom: 8px; color: #555; font-weight: 500; }
+        .form-row input { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; }
+        .btn-save { background: #3498db; color: white; border: none; padding: 10px 25px; border-radius: 5px; cursor: pointer; }
+
+        /* Table Lịch sử đơn hàng */
+        .order-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        .order-table th { background: #f8f9fa; padding: 12px; text-align: left; font-weight: 600; }
+        .order-table td { padding: 12px; border-bottom: 1px solid #eee; }
+        .status-badge { padding: 4px 10px; border-radius: 20px; font-size: 12px; }
+        
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        @media (max-width: 768px) {
+            .profile-container { grid-template-columns: 1fr; }
+        }
+
+        /* --- NÂNG CẤP GIAO DIỆN BẢNG ĐƠN HÀNG --- */
+        .order-card {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            transition: box-shadow 0.3s ease;
+        }
+
+        .order-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .order-header {
+            background-color: #f8f9fa;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #e0e0e0;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .order-body {
+            padding: 20px;
+        }
+
+        .order-item-preview {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .order-item-preview img {
+            width: 60px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 4px;
+            border: 1px solid #eee;
+        }
+
+        .order-item-info h4 {
+            font-size: 15px;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .order-footer {
+            padding: 15px 20px;
+            border-top: 1px solid #f0f0f0;
+            
+            /* --- SỬA ĐỔI Ở ĐÂY --- */
+            display: flex;
+            flex-direction: column; /* Xếp các phần tử theo chiều dọc */
+            align-items: flex-end;  /* Căn tất cả sang lề PHẢI */
+            gap: 10px;              /* Khoảng cách giữa Tiền và Nút */
+            background: #fff;
+        }
+
+        .total-price {
+            font-size: 18px;
+            font-weight: 700;
+            color: #d0011b;
+        }
+
+        .btn-detail {
+            padding: 8px 20px;
+            border: 1px solid #3498db;
+            color: #3498db;
+            background: white;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .btn-detail:hover {
+            background: #3498db;
+            color: white;
+        }
+
+        /* Modal Chi tiết đơn hàng (Giống bên Admin nhưng đơn giản hơn) */
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 2000; 
+            left: 0; top: 0; width: 100%; height: 100%; 
+            background-color: rgba(0,0,0,0.5); 
+            backdrop-filter: blur(2px);
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: 5% auto;
+            padding: 0;
+            border-radius: 8px;
+            width: 700px;
+            max-width: 95%;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            animation: slideDown 0.3s ease;
+            overflow: hidden;
+        }
+
+        .modal-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f8f9fa;
+        }
+
+        .modal-body {
+            padding: 20px;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #f5f5f5;
+        }
+
+        .product-item {
+            display: flex;
+            gap: 15px;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-top">
+                <div class="logo"><a href="../index.html"><i class="fas fa-book"></i><span class="logo-text">BookStore</span></a></div>
+                <div class="header-actions" id="header-actions"></div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="profile-container">
+            <aside class="profile-sidebar">
+                <div class="user-brief">
+                    <img src="" id="avatarImg" class="user-avatar" alt="Avatar">
+                    <div>
+                        <div style="font-size: 14px; color: #888;">Tài khoản của</div>
+                        <strong id="sidebarName" style="font-size: 16px;">User</strong>
+                    </div>
+                </div>
+                <nav class="sidebar-nav">
+                    <a onclick="switchTab('info')" id="nav-info" class="active"><i class="fas fa-user"></i> Hồ sơ cá nhân</a>
+                    <a onclick="switchTab('orders')" id="nav-orders"><i class="fas fa-clipboard-list"></i> Đơn mua</a>
+                    <a onclick="switchTab('password')" id="nav-password"><i class="fas fa-key"></i> Đổi mật khẩu</a>
+                    <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
+                </nav>
+            </aside>
+
+            <section class="profile-content">
+                <div id="tab-info" class="tab-content active">
+                    <h2 class="section-title" style="text-align: left; margin-bottom: 20px;">Hồ sơ của tôi</h2>
+                    <p style="margin-bottom: 30px; color: #666;">Quản lý thông tin hồ sơ để bảo mật tài khoản</p>
+                    
+                    <form id="profileForm">
+                        <div class="form-row">
+                            <label>Họ và tên</label>
+                            <input type="text" id="profileName" required>
+                        </div>
+                        <div class="form-row">
+                            <label>Email (Không thể thay đổi)</label>
+                            <input type="email" id="profileEmail" disabled style="background: #f9f9f9;">
+                        </div>
+                        <div class="form-row">
+                            <label>Số điện thoại</label>
+                            <input type="text" id="profilePhone">
+                        </div>
+                        <button type="submit" class="btn-save">Lưu thay đổi</button>
+                    </form>
+                </div>
+
+                <div id="tab-orders" class="tab-content">
+                    <h2 class="section-title" style="text-align: left; margin-bottom: 20px;">Lịch sử đơn hàng</h2>
+                    
+                    <div id="myOrdersList">
+                        </div>
+                </div>
+
+                <div id="tab-password" class="tab-content">
+                    <h2 class="section-title" style="text-align: left; margin-bottom: 20px;">Đổi mật khẩu</h2>
+                    <form id="changePassForm">
+                        <div class="form-row">
+                            <label>Mật khẩu hiện tại</label>
+                            <input type="password" id="currentPass" required>
+                        </div>
+                        <div class="form-row">
+                            <label>Mật khẩu mới</label>
+                            <input type="password" id="newPass" required>
+                        </div>
+                        <div class="form-row">
+                            <label>Xác nhận mật khẩu mới</label>
+                            <input type="password" id="confirmPass" required>
+                        </div>
+                        <button type="submit" class="btn-save">Xác nhận</button>
+                    </form>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <div class="auth-notification" id="notification">
+        <span id="notificationMessage"></span>
+        <button onclick="closeNotification()"><i class="fas fa-times"></i></button>
+    </div>
+
+    <div id="userOrderModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 style="margin:0;">Chi tiết đơn hàng <span id="modalOrderId" style="color:#3498db"></span></h3>
+                <span onclick="closeUserModal()" style="cursor:pointer; font-size:24px;">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div style="background:#f9f9f9; padding:15px; border-radius:6px; margin-bottom:20px;">
+                    <h4 style="margin-bottom:10px; color:#555;"><i class="fas fa-map-marker-alt"></i> Thông tin nhận hàng</h4>
+                    <p><strong>Người nhận:</strong> <span id="modalReceiver"></span></p>
+                    <p><strong>Số điện thoại:</strong> <span id="modalPhone"></span></p>
+                    <p><strong>Thời gian đặt:</strong> <span id="modalDate"></span></p>
+                    <p><strong>Trạng thái:</strong> <span id="modalStatus"></span></p>
+                </div>
+
+                <h4 style="margin-bottom:10px; color:#555;">Sản phẩm</h4>
+                <div id="modalProductsList"></div>
+
+                <div style="margin-top:20px; text-align:right; border-top:1px dashed #ddd; padding-top:15px;">
+                    <div class="detail-row">
+                        <span>Tổng tiền hàng:</span>
+                        <span id="modalSubTotal"></span>
+                    </div>
+                    <div class="detail-row">
+                        <span>Phí vận chuyển:</span>
+                        <span style="color:#27ae60;">Chưa tính</span>
+                    </div>
+                    <div class="detail-row" style="border:none; margin-top:10px;">
+                        <strong style="font-size:16px;">Thành tiền:</strong>
+                        <strong style="font-size:20px; color:#d0011b;" id="modalTotal"></strong>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="padding:15px; text-align:right; background:#f8f9fa;">
+                <button onclick="closeUserModal()" style="padding:8px 25px; border:1px solid #ddd; background:white; border-radius:4px; cursor:pointer;">Đóng</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/data.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/profile.js"></script>
+</body>
+</html>
+
