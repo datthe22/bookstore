@@ -21,43 +21,43 @@
 }
 
 /* --- 2. MOBILE & TABLET DỌC (Max-width: 768px) --- */
-@media (max-width: 768px) {
-    .container { max-width: 100%; padding: 0 15px; }
+/* --- CẬP NHẬT HEADER MOBILE --- */
+.header-top {
+    flex-wrap: wrap;
+    padding: 10px 0;
+    gap: 10px;
+    align-items: center;
+}
 
-    /* === HEADER MOBILE === */
-    .header-top {
-        flex-wrap: wrap; /* Cho phép rớt dòng */
-        padding: 15px 0;
-        gap: 10px;
-    }
+.logo {
+    flex: 1;
+    font-size: 18px; /* Logo nhỏ lại chút cho gọn */
+}
 
-    .logo { 
-        flex: 1; /* Logo chiếm phần còn lại bên trái */
-        font-size: 20px; 
-    }
-    
-    .menu-toggle {
-        display: block; /* Hiện nút 3 gạch */
-        font-size: 24px;
-        color: var(--primary-color);
-        background: none;
-        border: none;
-        cursor: pointer;
-        padding: 5px;
-    }
+/* Nhóm các icon bên phải (Giỏ hàng, Menu, User) */
+.header-actions {
+    gap: 15px; /* Tăng khoảng cách giữa các icon */
+    display: flex;
+    align-items: center;
+}
 
-    /* Thanh tìm kiếm: Rớt xuống dòng thứ 2, full chiều rộng */
-    .search-box {
-        order: 3;
-        flex: 0 0 100%; /* Chiếm 100% chiều ngang */
-        margin-top: 10px;
-        border-radius: 8px; /* Bo góc ít hơn cho gọn */
-    }
+.btn-cart {
+    font-size: 20px; /* Icon giỏ hàng to rõ hơn */
+    margin-right: 5px;
+}
 
-    .header-actions {
-        gap: 15px;
-    }
-    
+.menu-toggle {
+    font-size: 22px;
+    padding: 5px;
+}
+
+/* Thanh tìm kiếm full màn hình đẹp hơn */
+.search-box {
+    order: 3;
+    flex: 0 0 100%;
+    margin-top: 5px;
+    height: 40px; /* Chiều cao cố định */
+
     /* Ẩn chữ "Đăng nhập/Đăng ký", chỉ hiện Icon cho gọn */
     .btn-login span, .btn-register span { display: none; }
     .btn-cart span.cart-count { top: -5px; right: -10px; }
@@ -143,6 +143,17 @@
 /* --- 3. MOBILE NHỎ (Max-width: 576px - iPhone/Android thường) --- */
 @media (max-width: 576px) {
     
+    /* Giảm kích thước tiêu đề trên mobile */
+    .section-title {
+        font-size: 22px !important; /* Giảm từ 32px xuống 22px */
+        margin-bottom: 30px;
+    }
+
+    /* Banner khuyến mãi */
+    .promotion-content h3 {
+        font-size: 20px; /* Tiêu đề trong card khuyến mãi nhỏ lại */
+    }
+
     /* === GRID SÁCH 2 CỘT (CHUẨN SHOPEE) === */
     .books-grid {
         grid-template-columns: repeat(2, 1fr); /* 2 cột */
@@ -190,15 +201,35 @@
         display: flex; gap: 5px;
     }
     
+
+
+    /* Fix lỗi nút mua hàng: Hiện lại chữ và căn giữa */
     .btn-add-cart {
-        padding: 6px 0;
-        font-size: 0; /* Ẩn chữ */
+        padding: 8px 0; /* Tăng độ cao nút một chút cho dễ bấm */
+        font-size: 13px !important; /* QUAN TRỌNG: Hiện lại chữ kích thước 13px */
         width: 100%;
         border-radius: 4px;
+        display: flex !important; /* Sử dụng flex để căn giữa icon và chữ */
+        align-items: center;
+        justify-content: center;
+        gap: 5px; /* Khoảng cách giữa icon và chữ */
     }
-    .btn-add-cart i { font-size: 16px; margin: 0; } /* Chỉ hiện icon */
-    .btn-detail { display: none; } /* Ẩn nút chi tiết, bấm vào hình là được */
 
+    .btn-add-cart i {
+        font-size: 14px; /* Chỉnh icon nhỏ lại cho cân đối */
+        margin: 0;
+    }
+
+    /* Ẩn nút chi tiết đi để đỡ chật (giữ nguyên logic cũ của bạn) */
+    .btn-detail { display: none; }
+
+    /* Chỉnh lại giá tiền để không bị dính vào nút */
+    .book-price {
+        margin-bottom: 8px;
+        flex-direction: row; /* Để giá cũ và mới nằm ngang cho gọn */
+        align-items: baseline;
+        gap: 8px;
+    }
     /* === CATEGORY HEADER === */
     .category-page-header { padding: 50px 0 !important; }
     #category-title { font-size: 28px !important; }
@@ -267,6 +298,20 @@
         text-align: left;
         padding-left: 30px;
     }
+/* Đẩy nút mũi tên ra sát mép hoặc ẩn đi trên mobile */
+.slider-btn {
+    width: 30px;
+    height: 30px;
+    font-size: 12px;
+    background: rgba(255,255,255,0.5); /* Mờ đi để thấy chữ bên dưới */
+}
+
+.prev-btn { left: 5px; }
+.next-btn { right: 5px; }
+
+/* Hoặc ẩn luôn nút mũi tên trên mobile (người dùng thường vuốt tay) */
+/* .slider-btn { display: none; } */
+
     .banner-badge { margin-top: 10px; padding: 8px 20px; font-size: 11px; }
     .category-icon { width: 50px; height: 50px; font-size: 20px; margin-bottom: 10px; }
     .category-title { font-size: 20px; }
