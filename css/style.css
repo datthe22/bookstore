@@ -1083,3 +1083,66 @@ html { scroll-behavior: smooth; }
     background: var(--gradient-primary);
     filter: blur(100px); opacity: 0.2; border-radius: 50%; pointer-events: none;
 }
+
+/* =========================================
+   NÂNG CẤP NÚT ĐĂNG NHẬP / ĐĂNG KÝ
+   ========================================= */
+
+/* 1. Tăng khoảng cách giữa các nút cho thoáng */
+.header-actions {
+    gap: 15px !important; /* Cách nhau 15px */
+}
+
+/* 2. Style chung cho cả 2 nút (Reset style cũ) */
+.btn-login, .btn-register {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    border-radius: 50px; /* Bo tròn hoàn toàn (Viên thuốc) */
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    cursor: pointer;
+    text-decoration: none;
+}
+
+/* Icon bên trong nút cách chữ ra 1 chút */
+.btn-login i, .btn-register i {
+    margin-right: 8px;
+    font-size: 16px;
+}
+
+/* --- 3. NÚT ĐĂNG NHẬP (Phong cách tối giản) --- */
+.btn-login {
+    background: transparent !important; /* Nền trong suốt */
+    color: #333 !important;             /* Chữ màu đen xám */
+    border: 1px solid #e0e0e0;          /* Viền mỏng màu xám */
+    padding: 8px 20px;
+}
+
+.btn-login:hover {
+    border-color: #3498db;              /* Hover: Viền xanh */
+    color: #3498db !important;          /* Hover: Chữ xanh */
+    background-color: #f8fbfd !important; /* Nền xanh rất nhạt */
+    transform: translateY(-2px);
+}
+
+/* --- 4. NÚT ĐĂNG KÝ (Phong cách nổi bật) --- */
+.btn-register {
+    /* Màu Gradient xanh tím hiện đại */
+    background: linear-gradient(135deg, #3498db 0%, #6c5ce7 100%) !important;
+    color: white !important;
+    border: none;
+    padding: 9px 25px; /* Nút này to hơn nút đăng nhập 1 xíu để nhấn mạnh */
+    
+    /* Đổ bóng nhẹ màu xanh */
+    box-shadow: 0 4px 15px rgba(52, 152, 219, 0.35);
+}
+
+.btn-register:hover {
+    /* Hiệu ứng nhún lên và bóng đậm hơn */
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(52, 152, 219, 0.5);
+    filter: brightness(1.1);
+}
