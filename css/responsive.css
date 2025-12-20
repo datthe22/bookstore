@@ -393,4 +393,50 @@
     .prev-btn { left: 5px; }
     .next-btn { right: 5px; }
 
+/* === SỬA LỖI PHẦN KHUYẾN MÃI (PROMOTION) KHÓ NHÌN === */
+    .promotion-grid {
+        gap: 10px; /* Thu hẹp khoảng cách giữa 2 thẻ */
+    }
+
+    .promotion-card {
+        height: 200px; /* Giảm chiều cao thẻ cho cân đối */
+    }
+
+    .promotion-content {
+        /* Tăng độ đậm của lớp phủ đen để chữ trắng nổi bật hẳn lên */
+        background: rgba(0, 0, 0, 0.7) !important; 
+        padding: 10px; /* Giảm lề để có thêm chỗ cho chữ */
+    }
+
+    .promotion-content h3 {
+        font-size: 15px !important; /* Chữ tiêu đề nhỏ lại để không bị ngắt dòng xấu */
+        margin-bottom: 5px;
+        line-height: 1.3;
+        text-shadow: none; /* Bỏ bóng chữ cũ cho đỡ nhòe */
+    }
+
+    .promotion-content p {
+        font-size: 11px; /* Chữ mô tả nhỏ lại */
+        margin-bottom: 8px;
+        color: #f1f1f1; /* Màu trắng hơi xám cho dịu mắt */
+        display: block !important; /* Đảm bảo luôn hiện */
+    }
+
+    .btn-promotion {
+        padding: 6px 15px; /* Thu nhỏ nút lại */
+        font-size: 11px;
+        margin-top: 5px;
+        border-radius: 15px;
+        width: auto; /* Nút tự co giãn theo chữ */
+        min-width: 80px;
+    }
+    
+    /* Chỉnh lại cái nhãn giảm giá màu đỏ/cam ở góc */
+    .promotion-badge {
+        font-size: 10px;
+        padding: 4px 8px;
+        top: 10px;
+        left: 10px;
+    }
+
 }
