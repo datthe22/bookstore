@@ -120,10 +120,10 @@
     
     .banner-content {
         /* Căn vị trí sang trái */
-        left: 5px;  /* Cách mép trái 20px */
+        left: 20px;  /* Cách mép trái 20px */
         top: 50%;
         transform: translateY(-50%); /* Chỉ căn giữa theo chiều dọc */
-        
+        text-align: left;
         /* Bỏ nền trắng */
         background: none;
         box-shadow: none;
