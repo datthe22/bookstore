@@ -373,7 +373,7 @@
         margin-right: 5px;
     }
     
-    .btn-login, .btn-register {
+    .btn-login {
         display: none; /* Ẩn nút đăng nhập/đăng ký chữ trên mobile cho gọn */
     }
 
