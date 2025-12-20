@@ -118,33 +118,30 @@
         border-radius: 12px; 
     }
     
-    .banner-content {
-        /* Căn vị trí sang trái */
-        left: 50%;  /* Cách mép trái 20px */
+.banner-content {
+        /* --- CẤU HÌNH CĂN GIỮA --- */
+        left: 50%;  /* Đưa điểm neo về giữa màn hình */
         top: 50%;
-        transform: translateY(-50%); /* Chỉ căn giữa theo chiều dọc */
-        text-align: center;
-        /* Bỏ nền trắng */
-        background: none;
-        box-shadow: none;
-        padding: 0;
+        transform: translate(-50%, -50%); /* Dịch ngược lại 50% kích thước để nằm chính giữa tâm */
+        text-align: center; /* Căn giữa các dòng chữ bên trong */
         
-        /* Căn lề chữ */
-        text-align: left;
-        width: 70%; /* Giới hạn chiều rộng để chữ không tràn hết ảnh */
+        /* Cấu hình kích thước */
+        width: 100%; /* Chiếm hết chiều ngang để căn giữa chuẩn hơn */
+        padding: 0 15px; /* Cách lề 2 bên 1 chút */
+        
+        /* Giao diện (giữ nguyên hoặc tùy chỉnh) */
+        background: none; 
+        box-shadow: none;
         z-index: 10;
     }
 
+    /* Đảm bảo tiêu đề to rõ */
     .banner-content h2 { 
-        font-size: 24px; /* Tăng kích thước chữ lên xíu cho rõ */
+        font-size: 24px; 
         margin-bottom: 10px; 
-        
-        /* Đổi chữ thành màu trắng và thêm bóng đen để dễ đọc trên mọi ảnh */
-        color: white; 
-        font-weight: 700;
-        text-shadow: 0 2px 4px rgba(0,0,0,0.8); /* Bóng đen đậm giúp chữ nổi bật */
+        color: white;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.6); /* Bóng đen giúp chữ nổi trên mọi nền */
     }
-
     /* Vẫn ẩn mô tả dài dòng trên mobile cho thoáng */
     .banner-content p { 
         display: none; 
