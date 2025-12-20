@@ -111,18 +111,51 @@
     /* Nút đóng menu (Tạo bằng JS hoặc CSS trick nếu cần, tạm thời bấm ra ngoài để đóng) */
 
     /* === BANNER SLIDER === */
-    .banner-slider { height: 250px; border-radius: 12px; }
+/* === BANNER SLIDER MOBILE (FIX LỖI LỆCH CHỮ) === */
+    .banner-slider { 
+        height: 220px; /* Thu nhỏ chiều cao banner một chút cho gọn */
+        border-radius: 12px; 
+    }
+    
     .banner-content {
         left: 50%;
         top: 50%;
-        transform: translate(-50%, -50%);
-        width: 90%;
+        transform: translate(-50%, -50%); /* Căn giữa tuyệt đối */
+        width: 85%; /* Chiều rộng hộp nội dung */
         text-align: center;
-        text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+        
+        /* QUAN TRỌNG: Tạo nền trắng mờ để chữ không bị chìm vào ảnh */
+        background: rgba(255, 255, 255, 0.9);
+        padding: 15px;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        z-index: 10;
     }
-    .banner-content h2 { font-size: 24px; margin-bottom: 10px; }
-    .banner-content p { font-size: 14px; display: none; /* Ẩn mô tả dài dòng trên mobile */ }
-    .btn-banner { padding: 8px 20px; font-size: 13px; margin-top: 5px; }
+
+    .banner-content h2 { 
+        font-size: 18px; 
+        margin-bottom: 8px; 
+        color: #2c3e50; /* Đổi chữ sang màu tối để dễ đọc trên nền trắng */
+        font-weight: 700;
+        text-shadow: none; /* Bỏ bóng chữ cũ đi cho đỡ rối */
+    }
+
+    /* Ẩn dòng mô tả dài dòng trên mobile cho đỡ chật */
+    .banner-content p { 
+        display: none; 
+    }
+    
+    .btn-banner { 
+        padding: 6px 20px; 
+        font-size: 12px; 
+        margin-top: 5px;
+        border-radius: 20px;
+        width: auto;
+        display: inline-block;
+        background: linear-gradient(135deg, #3498db, #2980b9);
+        color: white;
+        box-shadow: none;
+    }
     
     .slider-btn { width: 35px; height: 35px; font-size: 14px; }
     .prev-btn { left: 10px; } .next-btn { right: 10px; }
